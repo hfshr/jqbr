@@ -1,0 +1,104 @@
+
+dependencies:
+ - name: jquery
+   version:  3.6.0
+   src: htmlwidgets/lib/jquery
+   script: jquery.js
+ - name: jqueryextendext
+   version:  1.0.0
+   src: htmlwidgets/lib/jqueryextendext
+   script: jQuery-extendext.js
+ - name: doT
+   version:  1.1.1
+   src: htmlwidgets/lib/doT
+   script: dot.min.js
+ - name: bootstrap
+   version: 1.0.0
+   src: htmlwidgets/lib/bootstrap
+   script: bootstrap.min.js
+   stylesheet: bootstrap.min.css
+ - name: interact
+   version: 1.9.20
+   src: htmlwidgets/lib/interact
+   script: interact.js
+ - name: bt-tooltip-errors
+   version: 1.0.0
+   src: htmlwidgets/lib/plugins/bt-tooltip-errors
+   script: plugin.js
+   stylesheet: plugin.scss
+ - name: sortable
+   version: 1.0.0
+   src: htmlwidgets/lib/plugins/sortable
+   script: plugin.js
+   stylesheet: plugin.scss
+ - name: sql-support
+   version: 0.1
+   src: htmlwidgets/lib/plugins/sql-support
+   script: plugin.js
+ - name: selectize
+   version: 0.12.2
+   src: htmlwidgets/lib/selectize
+   script: selectize.min.js
+   stylesheet: selectize.bootstrap3.css
+ - name: bootstrap-select
+   version: 0.1
+   src: htmlwidgets/lib/bootstrap-select
+   script: bootstrap-select.js
+ - name: bt-selectpicker
+   version: 0.1
+   src: htmlwidgets/lib/plugins/bt-selectpicker
+   script: plugin.js
+ - name: bt-checkbox
+   version: 0.1
+   src: htmlwidgets/lib/plugins/bt-checkbox
+   script: plugin.js
+   stylesheet: plugin.scss
+ - name: awesome-checkbox
+   version: 0.1
+   src: htmlwidgets/lib/plugins/awesome-checkbox
+   stylesheet: awesome-bootstrap-checkbox.css
+ - name: slider
+   version: 10.6.2
+   src: htmlwidgets/lib/plugins/slider
+   script: slider.js
+   stylesheet: slider.css
+ - name: datepicker
+   version: 1.9.0
+   src: htmlwidgets/lib/plugins/datepicker
+   script: datepicker.min.js
+   stylesheet: datepicker.min.css
+ - name: moment
+   version: 2.29.1
+   src: htmlwidgets/lib/plugins/moment
+   script: moment.js
+ - name: bootbox
+   version: 1.0.0
+   src: htmlwidgets/lib/bootbox
+   script: bootbox.js
+ - name: unique-filter
+   version: 1.0.0
+   src: htmlwidgets/lib/plugins/unique-filter
+   script: plugin.js
+ - name: filter-description
+   version: 1.0.0
+   src: htmlwidgets/lib/plugins/filter-description
+   script: plugin.js
+   stylesheet: plugin.scss
+ - name: chosen
+   version: 1.8.2
+   src: htmlwidgets/lib/chosen
+   script: chosen.jquery.min.js
+   stylesheet: chosen.min.css
+ - name: chosen-selectpicker
+   version: 1.0.0
+   src: htmlwidgets/lib/plugins/chosen-selectpicker
+   script: plugin.js
+ - name: query-builder
+   version:  2.6.0
+   src: htmlwidgets/lib/query-builder
+   script: query-builder.js
+   stylesheet: query-builder.css
+
+
+
+
