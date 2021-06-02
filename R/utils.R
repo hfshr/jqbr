@@ -60,9 +60,7 @@ lookup <- function(id, operator, value) {
   l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
 
   # javascript boolean to R boolean
-  if (value %in% c("true", "false")) {
-    value <- toupper(value)
-  }
+  ifelse(value %in% c("true", "false"),  toupper(value), value)
 
   if (operator %in% names(l.operators1)) {
     if (substring(operator, nchar(operator)) == "_") {
@@ -79,9 +77,11 @@ lookup <- function(id, operator, value) {
   }
   if (operator %in% names(l.operators4)) {
     if (operator == "between") {
-      return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
+      return(glue::glue("between({id}, {value[[1]]}, {value[[2]]})"))
+      #return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
     } else {
-      return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
+      return(glue::glue("!between({id}, {value[[1]]}, {value[[2]]})"))
+      #return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
     }
   }
   if (operator %in% names(l.operators5)) {
@@ -123,9 +123,9 @@ recurseFilter <- function(filter = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%m/%d/%Y")')) # date range
+          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
         } else {
-          value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", "%m/%d/%Y")') # single date
+          value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", "%Y-%m-%d")') # single date
         }
       } else if (filter$rules[[i]]$type == "string") { # enclose strings in quotes
         if (length(filter$rules[[i]]$value) > 1) {

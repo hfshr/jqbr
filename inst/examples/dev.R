@@ -3,7 +3,7 @@ library(qbr)
 
 filt <- list(
   list(
-    id = "mpg",
+    id = "mpgx",
     label = "Mile per gallon",
     type = "integer",
     description = 'This filter is <b>awesome</b> !',
@@ -26,7 +26,7 @@ filt <- list(
     description = 'This filter also uses Awesome Bootstrap Checkboxes'
   ),
   list(
-    id = "rate",
+    id = "mpg",
     label = "Slider",
     type = "integer",
     validation = list(
@@ -54,7 +54,23 @@ filt <- list(
       todayHighlight = T,
       autoclose = T
     )
-  )
+  ),
+  list(
+    id=  'category',
+    label = 'Selectize',
+    type = 'string',
+    plugin = 'selectize',
+    values = list(
+      "A",
+      "B",
+      "C"
+    ),
+    plugin_config = list(
+      valueField = 'id',
+      labelField = 'name',
+      searchField = 'name',
+      sortField = 'name'
+  ))
 )
 
 
