@@ -115,7 +115,11 @@ shiny::shinyApp(
 
     output$fulllist <- renderPrint({
       req(input$querybuilder_validate)
+
+      x <<- input$querybuilder_out
+
       input$querybuilder_out
+
     })
 
 
