@@ -8,7 +8,7 @@ dependencies:
    version: 1.0.0
    src: htmlwidgets/lib/bootstrap
    script: bootstrap.min.js
-   stylesheet: bootstrap.min.cssD
+   stylesheet: bootstrap.min.css
  - name: interact
    version: 1.9.20
    src: htmlwidgets/lib/interact
