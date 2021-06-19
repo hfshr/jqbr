@@ -9,22 +9,72 @@ queryBuilder(
   plugins = NULL,
   rules = NULL,
   display_errors = FALSE,
+  optgroups = NULL,
+  default_filter = NULL,
+  sort_filters = FALSE,
   allow_empty = FALSE,
+  allow_groups = TRUE,
+  conditions = c("AND", "OR"),
+  select_placeholder = "------",
+  lang = NULL,
   width = NULL,
   height = NULL,
   elementId = NULL
 )
 }
 \arguments{
-\item{filters}{list of list specifying the available filters in the builder.}
+\item{filters}{list of list specifying the available filters in the builder.
+See example for a See https://querybuilder.js.org/#filters
+for details on the possible options}
 
-\item{plugins}{character vector of option plugins}
+\item{plugins}{list of optional plugins.}
 
-\item{display_errors}{When an error occurs on a rule, display an icon with a tooltip
+\item{rules}{Initial set of rules.
+By default the builder will contain one empty rule}
+
+\item{display_errors}{bool. If \code{TRUE}, when an error occurs on a rule, display an icon with a tooltip
 explaining the error.}
 
-\item{allow_empty}{No error will be thrown is the builder is entirely empty.}
+\item{optgroups}{List of groups in the filters and operators dropdowns.}
+
+\item{default_filter}{string. The \code{id} of the default filter for any new rule.}
+
+\item{sort_filters}{boolean|function. Sort filters alphabetically, or with a custom JS function.}
+
+\item{allow_empty}{bool. If \code{TRUE}, no error will be thrown if the builder is entirely empty.}
+
+\item{allow_groups}{boolean|int. Number of allowed nested groups. \code{TRUE} for no limit.}
+
+\item{conditions}{string. Array of available group conditions. Use the \code{lang} option to change the label.}
+
+\item{select_placeholder}{string. Label of the "no filter" option.}
+
+\item{lang}{Additional/overwrites translation strings.}
+
+\item{width, height}{Must be a valid CSS unit (like \code{'100\%'},
+\code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
+string and have \code{'px'} appended.}
+
+\item{elementId}{string. Widget ID.}
 }
 \description{
-queryBuilder
+Creates the queryBuidler widget. For more information about the options
+see https://querybuilder.js.org/#usage
+}
+\examples{
+
+## Only run examples in interactive R sessions
+if (interactive()) {
+
+## Define a set of filters
+
+filters
+
+
+
+}
+
+}
+\seealso{
+https://querybuilder.js.org/#usage
 }

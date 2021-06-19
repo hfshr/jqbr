@@ -44,6 +44,11 @@ dependencies:
    src: htmlwidgets/lib/chosen
    script: chosen.jquery.min.js
    stylesheet: chosen.min.css
+ - name: slider
+   version: 1.8.2
+   src: htmlwidgets/lib/plugins/slider
+   script: slider.js
+   stylesheet: slider.css
  - name: query-builder
    version:  2.6.0
    src: htmlwidgets/lib/query-builder

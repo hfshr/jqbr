@@ -10,7 +10,9 @@
 #' @import rlang
 #'
 #' @export
-filterTable <- function(filters = NULL, data = NULL, output = c("table", "text")) {
+filterTable <- function(filters = NULL,
+                        data = NULL,
+                        output = c("table", "text")) {
   output <- match.arg(output)
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
@@ -123,9 +125,10 @@ recurseFilter <- function(filter = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
-        } else {
-          value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", "%Y-%m-%d")') # single date
+          #value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
+          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0(x)) # date range
+          } else {
+          value <- paste0(filter$rules[[i]]$value) # single date
         }
       } else if (filter$rules[[i]]$type == "string") { # enclose strings in quotes
         if (length(filter$rules[[i]]$value) > 1) {
