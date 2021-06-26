@@ -8,9 +8,10 @@
 <!-- badges: end -->
 
 htmlwidget for jQuery QueryBuilder. The goal is to build upon the great
-work done by \[@harveyl888\](<https://github.com/harveyl888>) with
-\[queryBuilder\] and provide support for all plugins and widgets shown
-on <https://querybuilder.js.org/demo.html>.
+work done by [@harveyl888](https://github.com/harveyl888) with
+[queryBuilder](https://github.com/harveyl888/queryBuilder) and provide
+support for all plugins and widgets shown on
+<https://querybuilder.js.org/demo.html>.
 
 # Installation
 
@@ -73,12 +74,12 @@ for a widget called with `qbr::queryBuilderOutput('qbr')` you could use:
 -   `input$qbr_sql`: result of jQuery QueryBuilder’s getSQL method.
     Returns a SQL query string.
 
-`qbr` borrows the `queryBuidler::filterTable()` function from
-\[@harveyl888\](<https://github.com/harveyl888>) to filter a given
-dataframe. `filterTable(input$qbr_out, data, 'table')` returns a
-filtered data frame using the output from the widget and
-`filterTable(input$querybuilder_out, data, 'text')` returns a string
-containing the filter condition.
+`qbr` borrows the `filterTable()` function from
+[@harveyl888](https://github.com/harveyl888)’s `queryBuilder` to filter
+a given dataframe. `qbr::filterTable(input$qbr_out, data, 'table')`
+returns a filtered data frame using the output from the widget and
+`qbr::filterTable(input$querybuilder_out, data, 'text')` returns a
+string containing the filter condition.
 
 # Additional features
 
