@@ -66,14 +66,63 @@ see https://querybuilder.js.org/#usage
 ## Only run examples in interactive R sessions
 if (interactive()) {
 
-## Define a set of filters
+  ## Define a set of filters
 
-filters
+  filters <- list(
+    list(
+      id = "species",
+      label = "Species",
+      type = "string",
+      input = "select",
+      description = "Shift-click to select multiple!",
+      values = list("Adelie", "Gentoo", "Chinstrap"),
+      multiple = TRUE,
+      operators = c("equal", "not_equal", "in", "not_in")
+    )
+  )
 
+  ## Useage within a shiny app
+  library(shiny)
+  library(qbr)
 
+  shinyApp(
+    ui = fluidPage(
+      queryBuilderOutput("qbr",
+        width = 800,
+        height = 300
+      ),
+      fluidRow(
+        tableOutput("FilterResult")
+      )
+    ),
+    server = function(input, output, session) {
+      output$querybuilder <- renderQueryBuilder({
+        queryBuilder(
+          filters = filters,
+          plugins = list(
+            "sortable" = NA,
+            "bt-tooltip-errors" = NA,
+            "bt-checkbox" = list("color" = "primary"),
+            "filter-description" = list("mode" = "bootbox"),
+            "unique-filter" = NA
+          ),
+          display_errors = TRUE,
+          allow_empty = FALSE,
+          select_placeholder = "###"
+        )
+      })
 
+      output$FilterResult <- renderTable({
+        req(input$querybuilder_validate)
+        filterTable(
+          filters = input$querybuilder_out,
+          data = palmerpenguins::penguins,
+          output = "table"
+        )
+      })
+    }
+  )
 }
-
 }
 \seealso{
 https://querybuilder.js.org/#usage

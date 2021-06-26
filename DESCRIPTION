@@ -17,5 +17,7 @@ Imports:
     dplyr,
     glue,
     htmlwidgets,
+    palmerpenguins,
     purrr,
-    rlang
+    rlang,
+    shiny

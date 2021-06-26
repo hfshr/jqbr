@@ -33,14 +33,63 @@
 #' ## Only run examples in interactive R sessions
 #' if (interactive()) {
 #'
-#' ## Define a set of filters
+#'   ## Define a set of filters
 #'
-#' filters
+#'   filters <- list(
+#'     list(
+#'       id = "species",
+#'       label = "Species",
+#'       type = "string",
+#'       input = "select",
+#'       description = "Shift-click to select multiple!",
+#'       values = list("Adelie", "Gentoo", "Chinstrap"),
+#'       multiple = TRUE,
+#'       operators = c("equal", "not_equal", "in", "not_in")
+#'     )
+#'   )
 #'
+#'   ## Useage within a shiny app
+#'   library(shiny)
+#'   library(qbr)
 #'
+#'   shinyApp(
+#'     ui = fluidPage(
+#'       queryBuilderOutput("qbr",
+#'         width = 800,
+#'         height = 300
+#'       ),
+#'       fluidRow(
+#'         tableOutput("FilterResult")
+#'       )
+#'     ),
+#'     server = function(input, output, session) {
+#'       output$querybuilder <- renderQueryBuilder({
+#'         queryBuilder(
+#'           filters = filters,
+#'           plugins = list(
+#'             "sortable" = NA,
+#'             "bt-tooltip-errors" = NA,
+#'             "bt-checkbox" = list("color" = "primary"),
+#'             "filter-description" = list("mode" = "bootbox"),
+#'             "unique-filter" = NA
+#'           ),
+#'           display_errors = TRUE,
+#'           allow_empty = FALSE,
+#'           select_placeholder = "###"
+#'         )
+#'       })
 #'
+#'       output$FilterResult <- renderTable({
+#'         req(input$querybuilder_validate)
+#'         filterTable(
+#'           filters = input$querybuilder_out,
+#'           data = palmerpenguins::penguins,
+#'           output = "table"
+#'         )
+#'       })
+#'     }
+#'   )
 #' }
-#'
 #' @export
 queryBuilder <- function(filters,
                          plugins = NULL,
@@ -52,13 +101,12 @@ queryBuilder <- function(filters,
                          allow_empty = FALSE,
                          allow_groups = TRUE,
                          conditions = c("AND", "OR"),
-                         select_placeholder = '------',
+                         select_placeholder = "------",
                          lang = NULL,
                          width = NULL,
                          height = NULL,
                          elementId = NULL) {
-
-  x = list(
+  x <- list(
     plugins = plugins,
     filters = filters,
     rules = rules,
@@ -71,16 +119,15 @@ queryBuilder <- function(filters,
     conditions = conditions,
     select_placeholder = select_placeholder,
     lang = lang
-
   )
 
   # create widget
   htmlwidgets::createWidget(
-    name = 'queryBuilder',
+    name = "queryBuilder",
     x,
     width = width,
     height = height,
-    package = 'qbr',
+    package = "qbr",
     elementId = elementId
   )
 }
@@ -102,15 +149,15 @@ queryBuilder <- function(filters,
 #' @name queryBuilder-shiny
 #'
 #' @export
-queryBuilderOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'queryBuilder', width, height, package = 'qbr')
+queryBuilderOutput <- function(outputId, width = "100%", height = "400px") {
+  htmlwidgets::shinyWidgetOutput(outputId, "queryBuilder", width, height, package = "qbr")
 }
 
 #' @rdname queryBuilder-shiny
 #' @export
 renderQueryBuilder <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) {
+    expr <- substitute(expr)
+  } # force quoted
   htmlwidgets::shinyRenderWidget(expr, queryBuilderOutput, env, quoted = TRUE)
 }
-
-

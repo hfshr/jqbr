@@ -7,7 +7,7 @@
 #' @param output string return either a filtered data frame (table) or a text representation of the filter (text)
 #'
 #' @import dplyr
-#' @import rlang
+#' @importFrom rlang parse_expr
 #'
 #' @export
 filterTable <- function(filters = NULL,
@@ -41,6 +41,8 @@ filterTable <- function(filters = NULL,
 #' @param value filter value
 #' @return string representation of a single filter
 #'
+#' @importFrom glue glue
+#'
 lookup <- function(id, operator, value) {
   id <- paste0("`", id, "`")
   ## triple style operator, eg a = 1
@@ -62,7 +64,7 @@ lookup <- function(id, operator, value) {
   l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
 
   # javascript boolean to R boolean
-  ifelse(value %in% c("true", "false"),  toupper(value), value)
+  ifelse(value %in% c("true", "false"), toupper(value), value)
 
   if (operator %in% names(l.operators1)) {
     if (substring(operator, nchar(operator)) == "_") {
@@ -80,10 +82,10 @@ lookup <- function(id, operator, value) {
   if (operator %in% names(l.operators4)) {
     if (operator == "between") {
       return(glue::glue("between({id}, {value[[1]]}, {value[[2]]})"))
-      #return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
+      # return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
     } else {
       return(glue::glue("!between({id}, {value[[1]]}, {value[[2]]})"))
-      #return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
+      # return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
     }
   }
   if (operator %in% names(l.operators5)) {
@@ -118,16 +120,17 @@ recurseFilter <- function(filter = NULL) {
         fs <- paste0("(", recurseFilter(filter = filter$rules[[i]]), ")") # first filter
       } else {
         fs <- paste(fs, paste0("(", recurseFilter(filter = filter$rules[[i]]), ")"),
-                    sep = paste0(" ", condition[[filter$condition]], " ")) ## subsequent filters
+          sep = paste0(" ", condition[[filter$condition]], " ")
+        ) ## subsequent filters
       }
     } else { # not a nested filter group - process as a single filter
       if (length(filter$rules[[i]]$value) == 0) { # value is list() when checking for NA
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          #value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
+          # value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
           value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0(x)) # date range
-          } else {
+        } else {
           value <- paste0(filter$rules[[i]]$value) # single date
         }
       } else if (filter$rules[[i]]$type == "string") { # enclose strings in quotes
@@ -148,5 +151,3 @@ recurseFilter <- function(filter = NULL) {
   }
   return(fs)
 }
-
-
