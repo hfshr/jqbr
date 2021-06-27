@@ -4,14 +4,24 @@
 \alias{filterTable}
 \title{filterTable}
 \usage{
-filterTable(filters = NULL, data = NULL, output = c("table", "text"))
+filterTable(
+  filters = NULL,
+  data = NULL,
+  date_format = NULL,
+  output = c("table", "text")
+)
 }
 \arguments{
-\item{filters}{output from queryBuilder htmlWidget sent from shiny app as \code{input$el_out} where \code{el} is the htmlWidget element}
+\item{filters}{output from queryBuilder htmlWidget sent from shiny app as \code{input$el_out}
+where \code{el} is the htmlWidget element}
 
 \item{data}{data frame to filter}
 
-\item{output}{string return either a filtered data frame (table) or a text representation of the filter (text)}
+\item{date_format}{optional string specifying the date format used with the datepicker
+plugin. See \code{?as.Date()}.}
+
+\item{output}{string return either a filtered data frame (table) or a text representation
+of the filter (text)}
 }
 \description{
 filter a data frame using the output of a queryBuilder htmlWidget

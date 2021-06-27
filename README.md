@@ -79,7 +79,9 @@ for a widget called with `qbr::queryBuilderOutput('qbr')` you could use:
 a given dataframe. `qbr::filterTable(input$qbr_out, data, 'table')`
 returns a filtered data frame using the output from the widget and
 `qbr::filterTable(input$querybuilder_out, data, 'text')` returns a
-string containing the filter condition.
+string containing the filter condition. `qbr::filterTable()` also adds a
+`date_format` argument for specifying the date format - useful when the
+datepicker plugin is used.
 
 # Additional features
 

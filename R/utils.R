@@ -2,28 +2,33 @@
 #'
 #' filter a data frame using the output of a queryBuilder htmlWidget
 #'
-#' @param filters output from queryBuilder htmlWidget sent from shiny app as \code{input$el_out} where \code{el} is the htmlWidget element
+#' @param filters output from queryBuilder htmlWidget sent from shiny app as \code{input$el_out}
+#' where \code{el} is the htmlWidget element
 #' @param data data frame to filter
-#' @param output string return either a filtered data frame (table) or a text representation of the filter (text)
+#' @param date_format optional string specifying the date format used with the datepicker
+#' plugin. See `?as.Date()`.
+#' @param output string return either a filtered data frame (table) or a text representation
+#' of the filter (text)
 #'
-#' @import dplyr
+#' @importFrom dplyr filter `%>%`
 #' @importFrom rlang parse_expr
 #'
 #' @export
 filterTable <- function(filters = NULL,
                         data = NULL,
+                        date_format = NULL,
                         output = c("table", "text")) {
   output <- match.arg(output)
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
   ## Run through list recursively and generate a filter
-  f <- recurseFilter(filters)
+  f <- recurseFilter(filter = filters,
+                     date_format = date_format)
   if (output == "text") {
     return(f)
   } else if (output == "table") {
     df <- data %>%
-      dplyr::rowwise() %>%
       dplyr::filter(!!rlang::parse_expr(f))
     return(df)
   } else {
@@ -39,9 +44,7 @@ filterTable <- function(filters = NULL,
 #' @param id data frame column id
 #' @param operator filter operator as defined within queryBuilder
 #' @param value filter value
-#' @return string representation of a single filter
-#'
-#' @importFrom glue glue
+#' @return string representation of a single filtere
 #'
 lookup <- function(id, operator, value) {
   id <- paste0("`", id, "`")
@@ -81,11 +84,11 @@ lookup <- function(id, operator, value) {
   }
   if (operator %in% names(l.operators4)) {
     if (operator == "between") {
-      return(glue::glue("between({id}, {value[[1]]}, {value[[2]]})"))
-      # return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
+      #return(glue::glue("between({id}, {value[[1]]}, {value[[2]]})"))
+      return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
     } else {
-      return(glue::glue("!between({id}, {value[[1]]}, {value[[2]]})"))
-      # return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
+      #return(glue::glue("!between({id}, {value[[1]]}, {value[[2]]})"))
+      return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
     }
   }
   if (operator %in% names(l.operators5)) {
@@ -109,9 +112,10 @@ lookup <- function(id, operator, value) {
 #' internal recursive function to process filter
 #'
 #' @param filter filters output from queryBuilder htmlWidget
+#' @param date_format optional date formatting
 #' @return string representation of all filters combined
 #'
-recurseFilter <- function(filter = NULL) {
+recurseFilter <- function(filter = NULL, date_format = NULL) {
   condition <- list("AND" = "&", "OR" = "|")
   fs <- NULL
   for (i in seq_along(filter$rules)) {
@@ -128,10 +132,9 @@ recurseFilter <- function(filter = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          # value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", "%Y-%m-%d")')) # date range
-          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0(x)) # date range
+          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, ' )')) # date range
         } else {
-          value <- paste0(filter$rules[[i]]$value) # single date
+          value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", format = \"', date_format, '\")') # single date
         }
       } else if (filter$rules[[i]]$type == "string") { # enclose strings in quotes
         if (length(filter$rules[[i]]$value) > 1) {

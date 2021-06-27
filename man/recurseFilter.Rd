@@ -4,10 +4,12 @@
 \alias{recurseFilter}
 \title{recurseFilter}
 \usage{
-recurseFilter(filter = NULL)
+recurseFilter(filter = NULL, date_format = NULL)
 }
 \arguments{
 \item{filter}{filters output from queryBuilder htmlWidget}
+
+\item{date_format}{optional date formatting}
 }
 \value{
 string representation of all filters combined

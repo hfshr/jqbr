@@ -10,12 +10,11 @@ filters <- list(
     description = "Shift-click to select multiple!",
     values = list("Adelie", "Gentoo", "Chinstrap"),
     multiple = TRUE,
-    operators = c('equal', 'not_equal', "in")
+    operators = c('equal', 'not_equal', "in", "not_in")
   ),
   list(
     id = "sex",
     label = "Sex",
-    #type = "integer",
     input = "checkbox",
     values = list(
       "male",
@@ -50,20 +49,14 @@ filters <- list(
   list(
     id = "year",
     label = "Year",
-    type = "date",
-    validation = list(
-      format = "YYYY"
-    ),
-    plugin = "datepicker",
-    plugin_config = list(
-      format = "yyyy",
-      todayBtn = "linked",
-      todayHighlight = T,
-      autoclose = T
-    )
+    type = 'string',
+    input = 'select',
+    description = "Shift-click to select multiple!",
+    values = list("2007", "2008", "2009"),
+    multiple = TRUE,
+    operators = c('equal', 'not_equal', "in", "not_in")
   )
   )
-
 
 shiny::shinyApp(
   ui = fluidPage(
@@ -103,6 +96,7 @@ shiny::shinyApp(
         filters = input$querybuilder_out,
         data = palmerpenguins::penguins,
         output = "text"
+
       )
     })
 
@@ -112,7 +106,7 @@ shiny::shinyApp(
       filterTable(
         filters = input$querybuilder_out,
         data = palmerpenguins::penguins,
-       output = "table"
+        output = "table"
       )
     })
 
