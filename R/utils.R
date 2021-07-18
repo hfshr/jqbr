@@ -44,7 +44,7 @@ filterTable <- function(filters = NULL,
 #' @param id data frame column id
 #' @param operator filter operator as defined within queryBuilder
 #' @param value filter value
-#' @return string representation of a single filtere
+#' @return string representation of a single filter
 #'
 lookup <- function(id, operator, value) {
   id <- paste0("`", id, "`")
