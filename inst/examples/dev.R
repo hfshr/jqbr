@@ -86,7 +86,7 @@ shiny::shinyApp(
                        "unique-filter" = NA),
         display_errors = TRUE,
         allow_empty = FALSE,
-        select_placeholder = "###"
+        select_placeholder = "###",
       )
     })
 

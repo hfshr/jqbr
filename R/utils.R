@@ -132,7 +132,7 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          value <- purrr::map_chr(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, ' )')) # date range
+          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, ' )')) # date range
         } else {
           value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", format = \"', date_format, '\")') # single date
         }

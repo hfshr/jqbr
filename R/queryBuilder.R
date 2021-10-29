@@ -63,7 +63,7 @@
 #'       )
 #'     ),
 #'     server = function(input, output, session) {
-#'       output$querybuilder <- renderQueryBuilder({
+#'       output$qbr <- renderQueryBuilder({
 #'         queryBuilder(
 #'           filters = filters,
 #'           plugins = list(
@@ -80,9 +80,9 @@
 #'       })
 #'
 #'       output$FilterResult <- renderTable({
-#'         req(input$querybuilder_validate)
+#'         req(input$qbr_validate)
 #'         filterTable(
-#'           filters = input$querybuilder_out,
+#'           filters = input$qbr_out,
 #'           data = palmerpenguins::penguins,
 #'           output = "table"
 #'         )
@@ -161,3 +161,5 @@ renderQueryBuilder <- function(expr, env = parent.frame(), quoted = FALSE) {
   } # force quoted
   htmlwidgets::shinyRenderWidget(expr, queryBuilderOutput, env, quoted = TRUE)
 }
+
+
