@@ -1,6 +1,6 @@
-#' filterTable
+#' Apply query to a dataframe
 #'
-#' filter a data frame using the output of a queryBuilder htmlWidget
+#' Filter a data frame using the output of a queryBuilder htmlWidget.
 #'
 #' @param filters output from queryBuilder htmlWidget sent from shiny app as \code{input$el_out}
 #' where \code{el} is the htmlWidget element
@@ -23,16 +23,16 @@ filterTable <- function(filters = NULL,
     return(data)
   }
   ## Run through list recursively and generate a filter
-  f <- recurseFilter(filter = filters,
-                     date_format = date_format)
+  f <- recurseFilter(
+    filter = filters,
+    date_format = date_format
+  )
   if (output == "text") {
     return(f)
   } else if (output == "table") {
     df <- data %>%
       dplyr::filter(!!rlang::parse_expr(f))
     return(df)
-  } else {
-    return()
   }
 }
 
@@ -45,6 +45,8 @@ filterTable <- function(filters = NULL,
 #' @param operator filter operator as defined within queryBuilder
 #' @param value filter value
 #' @return string representation of a single filter
+#'
+#' @noRd
 #'
 lookup <- function(id, operator, value) {
   id <- paste0("`", id, "`")
@@ -64,7 +66,7 @@ lookup <- function(id, operator, value) {
   ## operators acting on multiple values
   l.operators6 <- list("in" = "%in%", "not_in" = "!%in%")
   ## operators based on a trend
-  l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
+  # l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
 
   # javascript boolean to R boolean
   ifelse(value %in% c("true", "false"), toupper(value), value)
@@ -84,10 +86,8 @@ lookup <- function(id, operator, value) {
   }
   if (operator %in% names(l.operators4)) {
     if (operator == "between") {
-      #return(glue::glue("between({id}, {value[[1]]}, {value[[2]]})"))
       return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
     } else {
-      #return(glue::glue("!between({id}, {value[[1]]}, {value[[2]]})"))
       return(paste0("!(", id, " >= ", value[[1]], " & ", id, " <= ", value[[2]], ")"))
     }
   }
@@ -101,10 +101,9 @@ lookup <- function(id, operator, value) {
       return(paste0("!(", id, " %in% c(", paste(value, collapse = ", "), "))"))
     }
   }
-  if (operator %in% names(l.operators7)) {
-    return(paste0("queryBuilder::", l.operators7[[operator]], "(", paste(gsub('\"', "`", value), collapse = ", "), ")"))
-    ## Need to add namespace for defined functions for dplyr filter_ to work
-  }
+  # if (operator %in% names(l.operators7)) {
+  #   return(paste0("queryBuilder::", l.operators7[[operator]], "(", paste(gsub('\"', "`", value), collapse = ", "), ")"))
+  # }
 }
 
 #' recurseFilter
@@ -114,6 +113,8 @@ lookup <- function(id, operator, value) {
 #' @param filter filters output from queryBuilder htmlWidget
 #' @param date_format optional date formatting
 #' @return string representation of all filters combined
+#'
+#' @noRd
 #'
 recurseFilter <- function(filter = NULL, date_format = NULL) {
   condition <- list("AND" = "&", "OR" = "|")
@@ -132,7 +133,7 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, ' )')) # date range
+          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, " )")) # date range
         } else {
           value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", format = \"', date_format, '\")') # single date
         }

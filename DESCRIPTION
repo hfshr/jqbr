@@ -2,20 +2,18 @@ Package: qbr
 Title: R interface to jQuery-QueryBuilder
 Version: 0.0.1
 Authors@R: 
-    person(given = "Harry",
-           family = "Fisher",
-           role = c("aut", "cre"),
-           email = "harryfisher21@gmail.com")
-Description: An R interface for jQuery-QueryBuilder - a jQuery plugin 
-  offering an simple interface to create complex queries.
+    person("Harry", "Fisher", , "harryfisher21@gmail.com", role = c("aut", "cre"))
+Description: An R interface for jQuery-QueryBuilder - a jQuery plugin
+    offering an simple interface to create complex queries.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+URL: https://github.com/hfshr/qbr, https://hfshr.github.io/qbr
+BugReports: https://github.com/hfshr/qbr/issues
 Imports: 
     dplyr,
     htmlwidgets,
     palmerpenguins,
-    purrr,
     rlang,
     shiny
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

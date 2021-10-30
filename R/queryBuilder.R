@@ -1,4 +1,4 @@
-#' queryBuilder
+#' queryBuilder widget
 #'
 #' Creates the queryBuidler widget. For more information about the options
 #' see https://querybuilder.js.org/#usage
@@ -24,7 +24,7 @@
 #'   string and have \code{'px'} appended.
 #' @param elementId string. Widget ID.
 #'
-#' @import htmlwidgets
+#' @importFrom htmlwidgets createWidget
 #'
 #' @seealso https://querybuilder.js.org/#usage
 #'
@@ -161,5 +161,3 @@ renderQueryBuilder <- function(expr, env = parent.frame(), quoted = FALSE) {
   } # force quoted
   htmlwidgets::shinyRenderWidget(expr, queryBuilderOutput, env, quoted = TRUE)
 }
-
-

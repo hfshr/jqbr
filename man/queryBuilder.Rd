@@ -2,7 +2,7 @@
 % Please edit documentation in R/queryBuilder.R
 \name{queryBuilder}
 \alias{queryBuilder}
-\title{queryBuilder}
+\title{queryBuilder widget}
 \usage{
 queryBuilder(
   filters,

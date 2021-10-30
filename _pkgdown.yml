@@ -1,0 +1,13 @@
+url: https://hfshr.github.io/qbr/
+
+template:
+  package: preferably
+
+authors:
+  Harry Fisher:
+    href: https://hfshr.xyz
+
+development:
+  mode: release
+
+
