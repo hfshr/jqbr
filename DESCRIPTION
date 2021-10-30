@@ -1,6 +1,6 @@
 Package: qbr
 Title: R interface to jQuery-QueryBuilder
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Harry", "Fisher", , "harryfisher21@gmail.com", role = c("aut", "cre"))
 Description: An R interface for jQuery-QueryBuilder - a jQuery plugin
