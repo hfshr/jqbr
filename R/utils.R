@@ -18,14 +18,15 @@ filterTable <- function(filters = NULL,
                         data = NULL,
                         date_format = NULL,
                         output = c("table", "text")) {
-
   output <- match.arg(output)
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
   ## Run through list recursively and generate a filter
-  f <- recurseFilter(filter = filters,
-                     date_format = date_format)
+  f <- recurseFilter(
+    filter = filters,
+    date_format = date_format
+  )
   if (output == "text") {
     return(f)
   } else if (output == "table") {
@@ -65,7 +66,7 @@ lookup <- function(id, operator, value) {
   ## operators acting on multiple values
   l.operators6 <- list("in" = "%in%", "not_in" = "!%in%")
   ## operators based on a trend
-  #l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
+  # l.operators7 <- list("up" = "upTrend", "down" = "downTrend")
 
   # javascript boolean to R boolean
   ifelse(value %in% c("true", "false"), toupper(value), value)
@@ -132,7 +133,7 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
         value <- 0
       } else if (filter$rules[[i]]$type == "date") { # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
-          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, ' )')) # date range
+          value <- lapply(filter$rules[[i]]$value, function(x) paste0('as.Date(\"', x, '\", format = ', date_format, " )")) # date range
         } else {
           value <- paste0('as.Date(\"', filter$rules[[i]]$value, '\", format = \"', date_format, '\")') # single date
         }

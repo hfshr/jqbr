@@ -161,5 +161,3 @@ renderQueryBuilder <- function(expr, env = parent.frame(), quoted = FALSE) {
   } # force quoted
   htmlwidgets::shinyRenderWidget(expr, queryBuilderOutput, env, quoted = TRUE)
 }
-
-
