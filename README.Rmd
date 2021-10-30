@@ -23,7 +23,7 @@ htmlwidget for jQuery QueryBuilder. The goal is to build upon the great work don
 # Installation
 
 ```{r eval = FALSE}
-#install.packages("remotes")
+# install.packages("remotes")
 remotes::install_github("hfshr/qbr")
 ```
 
@@ -35,18 +35,19 @@ Start by creating a list of filters to be used with your data. The `id` should b
 
 ```{r}
 filters <- list(
-    list(
+  list(
     id = "species",
     label = "Species",
-    type = 'string',
-    input = 'select',
+    type = "string",
+    input = "select",
     description = "Shift-click to select multiple!",
     values = list(
       "Adelie",
-      "Gentoo", 
-      "Chinstrap"),
+      "Gentoo",
+      "Chinstrap"
+    ),
     multiple = TRUE,
-    operators = c('equal', 'not_equal', "in")
+    operators = c("equal", "not_equal", "in")
   ),
   list(
     id = "sex",

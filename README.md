@@ -16,7 +16,7 @@ support for all plugins and widgets shown on
 # Installation
 
 ``` r
-#install.packages("remotes")
+# install.packages("remotes")
 remotes::install_github("hfshr/qbr")
 ```
 
@@ -33,18 +33,19 @@ below:
 
 ``` r
 filters <- list(
-    list(
+  list(
     id = "species",
     label = "Species",
-    type = 'string',
-    input = 'select',
+    type = "string",
+    input = "select",
     description = "Shift-click to select multiple!",
     values = list(
       "Adelie",
-      "Gentoo", 
-      "Chinstrap"),
+      "Gentoo",
+      "Chinstrap"
+    ),
     multiple = TRUE,
-    operators = c('equal', 'not_equal', "in")
+    operators = c("equal", "not_equal", "in")
   ),
   list(
     id = "sex",
