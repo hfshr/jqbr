@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{filterTable}
 \alias{filterTable}
-\title{filterTable}
+\title{Apply query to a dataframe}
 \usage{
 filterTable(
   filters = NULL,
@@ -24,5 +24,5 @@ plugin. See \code{?as.Date()}.}
 of the filter (text)}
 }
 \description{
-filter a data frame using the output of a queryBuilder htmlWidget
+Filter a data frame using the output of a queryBuilder htmlWidget.
 }
