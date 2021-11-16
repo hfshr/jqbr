@@ -1,122 +1,89 @@
 library(shiny)
-library(DT)
-library(palmerpenguins)
-library(qbr)
+
 
 filters <- list(
   list(
-    id = "species",
-    label = "Species",
-    type = 'string',
-    input = 'select',
-    description = "Shift-click to select multiple!",
-    values = list("Adelie", "Gentoo", "Chinstrap"),
-    multiple = TRUE,
-    operators = c('equal', 'not_equal', "in", "not_in")
+    id = "name",
+    label = "Name",
+    type = "string"
   ),
   list(
-    id = "sex",
-    label = "Sex",
-    input = "checkbox",
-    values = list(
-      "male",
-      "female"
-    ),
-    colors = list(
-      "success",
-      "danger"
-    ),
-    description = JS(
-      "function(rule) {
-        if (rule.operator && ['in', 'not_in'].indexOf(rule.operator.type) !== -1) {
-          return 'Use a pipe (|) to separate multiple values with \"in\" and \"not in\" operators';
-        }
-      }")
-  ),
-  list(
-    id = "bill_length_mm",
-    label = "Bill length",
+    id = "category",
+    label = "Category",
     type = "integer",
-    validation = list(
-      min = 0,
-      max = 100
+    input = "select",
+    values = list(
+      "Books",
+      "Movies",
+      "Music",
+      "Tools",
+      "Goodies",
+      "Clothes"
     ),
-    plugin = "slider",
-    plugin_config = list(
-      min = 0,
-      max = 100,
-      value = 0
+    operators = c(
+      "equal",
+      "not_equal",
+      "in",
+      "not_in",
+      "is_null",
+      "is_not_null"
     )
-  ),
-  list(
-    id = "year",
-    label = "Year",
-    type = 'string',
-    input = 'select',
-    description = "Shift-click to select multiple!",
-    values = list("2007", "2008", "2009"),
-    multiple = TRUE,
-    operators = c('equal', 'not_equal', "in", "not_in")
   )
-  )
-
-shiny::shinyApp(
-  ui = fluidPage(
-    fluidRow(
-    column(8,
-           queryBuilderOutput("querybuilder",
-                                 width = 800,
-                                 height = 300)
-           )
-    ),
-  fluidRow(
-    verbatimTextOutput("txtFilterList"),
-    verbatimTextOutput("fulllist"),
-    verbatimTextOutput("txtSQL"),
-    tableOutput("txtFilterResult")
-  )
-  ),
-  server = function(input, output, session) {
-
-    output$querybuilder <- renderQueryBuilder({
-      queryBuilder(
-        filters = filters,
-        plugins = list("sortable" = NA,
-                       "bt-tooltip-errors" = NA,
-                       "bt-checkbox" = list("color" = "primary"),
-                       'filter-description' = list("mode" = "bootbox"),
-                       "unique-filter" = NA),
-        display_errors = TRUE,
-        allow_empty = FALSE,
-        select_placeholder = "###",
-      )
-    })
-
-    output$txtFilterList <- renderPrint({
-      req(input$querybuilder_validate)
-      filterTable(
-        filters = input$querybuilder_out,
-        data = palmerpenguins::penguins,
-        output = "text"
-
-      )
-    })
-
-
-    output$txtFilterResult <- renderTable({
-      req(input$querybuilder_validate)
-      filterTable(
-        filters = input$querybuilder_out,
-        data = palmerpenguins::penguins,
-        output = "table"
-      )
-    })
-
-
-    output$txtSQL <- renderPrint({
-      req(input$querybuilder_validate)
-      input$querybuilder_sql
-    })
-  }
 )
 
+rules <- list(
+  rules = list(
+    list(
+      id = "name",
+      operator = "equal",
+      value = "hello"
+    )
+  )
+)
+
+options(shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE))
+
+ui <- fluidPage(
+  theme = bslib::bs_theme(version = 5),
+  useQueryBuilder(bs_version = 5),
+  fluidRow(
+    column(
+      width = 6,
+      queryBuilderInput("qb",
+        filters = filters,
+        rules = rules
+      )
+    ),
+    column(
+      width = 4,
+      actionButton("update", "Update")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  observe({
+    print(input$qb$rules)
+  })
+
+  new_rules <- list(
+    list(
+      id = "go",
+      type = "string"
+    )
+  )
+
+  observe({
+    updateQueryBuilder(
+      inputId = "qb",
+      reset = TRUE
+    )
+  }) |>
+    bindEvent(input$update)
+
+  session$onSessionEnded(function() {
+    stopApp()
+  })
+}
+
+shinyApp(ui = ui, server = server)

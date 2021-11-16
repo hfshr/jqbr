@@ -1,7 +1,6 @@
-#' queryBuilder widget
+#' queryBuilderInput
 #'
-#' Creates the queryBuidler widget. For more information about the options
-#' see https://querybuilder.js.org/#usage
+#' Shiny input for queryBuilder .
 #'
 #' @param filters list of list specifying the available filters in the builder.
 #' See example for a See https://querybuilder.js.org/#filters
@@ -19,145 +18,153 @@
 #' @param conditions string. Array of available group conditions. Use the `lang` option to change the label.
 #' @param select_placeholder string. Label of the "no filter" option.
 #' @param lang Additional/overwrites translation strings.
-#' @param width,height Must be a valid CSS unit (like \code{'100\%'},
-#'   \code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
-#'   string and have \code{'px'} appended.
-#' @param elementId string. Widget ID.
-#'
-#' @importFrom htmlwidgets createWidget
-#'
-#' @seealso https://querybuilder.js.org/#usage
 #'
 #' @examples
+#' library(shiny)
 #'
-#' ## Only run examples in interactive R sessions
-#' if (interactive()) {
+#' ui <- fluidPage(
+#'   queryBuilderInput("theId", 0)
+#' )
 #'
-#'   ## Define a set of filters
-#'
-#'   filters <- list(
-#'     list(
-#'       id = "species",
-#'       label = "Species",
-#'       type = "string",
-#'       input = "select",
-#'       description = "Shift-click to select multiple!",
-#'       values = list("Adelie", "Gentoo", "Chinstrap"),
-#'       multiple = TRUE,
-#'       operators = c("equal", "not_equal", "in", "not_in")
-#'     )
-#'   )
-#'
-#'   ## Useage within a shiny app
-#'   library(shiny)
-#'   library(qbr)
-#'
-#'   shinyApp(
-#'     ui = fluidPage(
-#'       queryBuilderOutput("qbr",
-#'         width = 800,
-#'         height = 300
-#'       ),
-#'       fluidRow(
-#'         tableOutput("FilterResult")
-#'       )
-#'     ),
-#'     server = function(input, output, session) {
-#'       output$qbr <- renderQueryBuilder({
-#'         queryBuilder(
-#'           filters = filters,
-#'           plugins = list(
-#'             "sortable" = NA,
-#'             "bt-tooltip-errors" = NA,
-#'             "bt-checkbox" = list("color" = "primary"),
-#'             "filter-description" = list("mode" = "bootbox"),
-#'             "unique-filter" = NA
-#'           ),
-#'           display_errors = TRUE,
-#'           allow_empty = FALSE,
-#'           select_placeholder = "###"
-#'         )
-#'       })
-#'
-#'       output$FilterResult <- renderTable({
-#'         req(input$qbr_validate)
-#'         filterTable(
-#'           filters = input$qbr_out,
-#'           data = palmerpenguins::penguins,
-#'           output = "table"
-#'         )
-#'       })
-#'     }
-#'   )
+#' server <- function(input, output) {
+#'   observeEvent(input$theId, {
+#'     print(input$theId)
+#'   })
 #' }
+#'
+#' if (interactive()) {
+#'   shinyApp(ui, server)
+#' }
+#' @importFrom shiny tags tagList
+#'
 #' @export
-queryBuilder <- function(filters,
-                         plugins = NULL,
-                         rules = NULL,
-                         display_errors = FALSE,
-                         optgroups = NULL,
-                         default_filter = NULL,
-                         sort_filters = FALSE,
-                         allow_empty = FALSE,
-                         allow_groups = TRUE,
-                         conditions = c("AND", "OR"),
-                         select_placeholder = "------",
-                         lang = NULL,
-                         width = NULL,
-                         height = NULL,
-                         elementId = NULL) {
-  x <- list(
-    plugins = plugins,
+queryBuilderInput <- function(inputId,
+                              width = "100%",
+                              filters,
+                              plugins = NULL,
+                              rules = NULL,
+                              optgroups = NULL,
+                              default_filter = NULL,
+                              sort_filters = FALSE,
+                              allow_groups = TRUE,
+                              allow_empty = FALSE,
+                              display_errors = FALSE,
+                              conditions = c("AND", "OR"),
+                              default_condition = "AND",
+                              inputs_separator = ",",
+                              display_empty_filter = TRUE,
+                              select_placeholder = "------",
+                              operators = NULL) {
+  stopifnot(!missing(inputId))
+  stopifnot(!missing(filters))
+
+  validate_filters(filters)
+
+  options <- list(
     filters = filters,
+    plugins = plugins,
     rules = rules,
-    display_errors = display_errors,
     optgroups = optgroups,
     default_filter = default_filter,
     sort_filters = sort_filters,
-    allow_empty = allow_empty,
     allow_groups = allow_groups,
+    allow_empty = allow_empty,
+    display_errors = display_errors,
     conditions = conditions,
+    default_condition = default_condition,
+    inputs_separator = inputs_separator,
+    display_empty_filter = display_empty_filter,
     select_placeholder = select_placeholder,
-    lang = lang
+    operators = operators
   )
 
-  # create widget
-  htmlwidgets::createWidget(
-    name = "queryBuilder",
-    x,
-    width = width,
-    height = height,
-    package = "qbr",
-    elementId = elementId
+  options <- dropNulls(options)
+
+  options <- jsonlite::toJSON(
+    options,
+    auto_unbox = TRUE
+  )
+
+  div(
+    class = "form-group shiny-input-container",
+    style = if (!is.null(width)) {
+      paste0("width: ", shiny::validateCssUnit(width), ";")
+    },
+    tags$div(
+      id = inputId,
+      class = "queryBuilderBinding",
+      "data-options" = options
+    )
   )
 }
 
-#' Shiny bindings for queryBuilder
-#'
-#' Output and render functions for using queryBuilder within Shiny
-#' applications and interactive Rmd documents.
-#'
-#' @param outputId output variable to read from
-#' @param width,height Must be a valid CSS unit (like \code{'100\%'},
-#'   \code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
-#'   string and have \code{'px'} appended.
-#' @param expr An expression that generates a queryBuilder
-#' @param env The environment in which to evaluate \code{expr}.
-#' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
-#'   is useful if you want to save an expression in a variable.
-#'
-#' @name queryBuilder-shiny
-#'
-#' @export
-queryBuilderOutput <- function(outputId, width = "100%", height = "400px") {
-  htmlwidgets::shinyWidgetOutput(outputId, "queryBuilder", width, height, package = "qbr")
+useQueryBuilder <- function(bs_version = 3) {
+  if (bs_version == 3) {
+    htmltools::htmlDependency(
+      name = "queryBuilderBinding",
+      version = "1.0.0",
+      src = c(file = system.file("packer", package = "qbr")),
+      script = c("queryBuilder.js", "query-builder.standalone.min.js"),
+      stylesheet = "query-builder.standalone.min.css"
+    )
+  } else {
+    htmltools::htmlDependency(
+      name = "queryBuilderBinding",
+      version = "1.0.0",
+      src = c(file = system.file("packer", package = "qbr")),
+      script = c("queryBuilder.js", "query-builder-bs4.standalone.min.js"),
+      stylesheet = "query-builder-bs4.standalone.min.css"
+    )
+  }
 }
 
-#' @rdname queryBuilder-shiny
-#' @export
-renderQueryBuilder <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) {
-    expr <- substitute(expr)
-  } # force quoted
-  htmlwidgets::shinyRenderWidget(expr, queryBuilderOutput, env, quoted = TRUE)
+
+
+#' updateQueryBuilder
+#'
+#' Update a queryBuilder with available methods.
+#'
+#' @param setFilters
+#'
+#'
+updateQueryBuilder <- function(inputId,
+                               setFilters = NULL,
+                               destroy = FALSE,
+                               reset = FALSE,
+                               session = getDefaultReactiveDomain()) {
+  message <- list(
+    setFilters = setFilters,
+    destroy = destroy,
+    reset = reset
+  )
+
+  session$sendInputMessage(inputId, message = message)
+}
+
+
+
+# x <- list(
+#   list(id = "a"),
+#   list(id = "b"),
+#   "a"
+# )
+
+
+
+validate_filters <- function(filters) {
+  if (!is.list(filters)) {
+    rlang::abort(
+      "Filters must be supplied in a list"
+    )
+  }
+
+  if (FALSE %in% unlist(lapply(filters, is.list))) {
+    rlang::abort(
+      "All filters must be a list"
+    )
+  }
+}
+
+dropNulls <- function(x) {
+  x[!vapply(x, is.null, FUN.VALUE = logical(1))]
 }
