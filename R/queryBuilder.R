@@ -101,24 +101,32 @@ queryBuilder <- function(filters,
                          allow_empty = FALSE,
                          allow_groups = TRUE,
                          conditions = c("AND", "OR"),
+                         default_condition = "AND",
                          select_placeholder = "------",
                          lang = NULL,
                          width = NULL,
                          height = NULL,
-                         elementId = NULL) {
-  x <- list(
-    plugins = plugins,
-    filters = filters,
-    rules = rules,
-    display_errors = display_errors,
-    optgroups = optgroups,
-    default_filter = default_filter,
-    sort_filters = sort_filters,
-    allow_empty = allow_empty,
-    allow_groups = allow_groups,
-    conditions = conditions,
-    select_placeholder = select_placeholder,
-    lang = lang
+                         elementId = NULL,
+                         ...) {
+
+
+  x <- c(
+    list(
+      plugins = plugins,
+      filters = filters,
+      rules = rules,
+      display_errors = display_errors,
+      optgroups = optgroups,
+      default_filter = default_filter,
+      sort_filters = sort_filters,
+      allow_empty = allow_empty,
+      allow_groups = allow_groups,
+      conditions = conditions,
+      default_condition = default_condition,
+      select_placeholder = select_placeholder,
+      lang = lang
+    ),
+    list(...)
   )
 
   # create widget

@@ -89,17 +89,23 @@ shiny::shinyApp(
         display_errors = TRUE,
         allow_empty = FALSE,
         select_placeholder = "###",
+        allow_invalid = TRUE,
+        default_condition = "OR"
       )
     })
 
     output$txtFilterList <- renderPrint({
       req(input$querybuilder_validate)
+
+
       filterTable(
         filters = input$querybuilder_out,
         data = palmerpenguins::penguins,
         output = "text"
 
       )
+
+       input$querybuilder_out
     })
 
 

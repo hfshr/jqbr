@@ -15,11 +15,13 @@ queryBuilder(
   allow_empty = FALSE,
   allow_groups = TRUE,
   conditions = c("AND", "OR"),
+  default_condition = "AND",
   select_placeholder = "------",
   lang = NULL,
   width = NULL,
   height = NULL,
-  elementId = NULL
+  elementId = NULL,
+  ...
 )
 }
 \arguments{
