@@ -8,19 +8,40 @@ $.extend(queryBuilderBinding, {
     return $(scope).find(".queryBuilderBinding");
   },
   initialize: (el) => {
-    var options = $(el).data("options");
+    // var options = $(el).data("options");
+    var element = document.getElementById(el.id);
+    var options = element.querySelector('script[data-for="' + el.id + '"]');
+    options = JSON.parse(options.innerHTML);
+
+    // function Iterate(data) {
+    //   jQuery.each(data, function (index, value) {
+    //     if (typeof value == "object") {
+    //       Iterate(value);
+    //     } else {
+    //       if (value.indexOf("function(rule)") > -1)
+    //         data[index] = eval("(" + value + ")");
+    //     }
+    //   });
+    // }
+
+    // Iterate(options.filters);
 
     $("#" + el.id).queryBuilder(options);
   },
   getValue: (el) => {
     var rules = $("#" + el.id).queryBuilder("getRules");
     var sql_rules = $("#" + el.id).queryBuilder("getSQL");
-    return { rules: rules, sql_rules: sql_rules };
+    // return { rules: rules, sql_rules: sql_rules };
+    return rules;
   },
   setValue: (el, value) => {
     // Remove all filters and replace with new ones
     if (value.setFilters !== null) {
       $("#" + el.id).queryBuilder("setFilters", true, value.setFilters);
+    }
+    // Update queryBuilder with a set of rules
+    if (value.setRules !== null) {
+      $("#" + el.id).queryBuilder("setRules", value.setRules);
     }
     // destory queryBuilder
     if (value.destory) {
@@ -29,10 +50,6 @@ $.extend(queryBuilderBinding, {
     // reset queryBuilder
     if (value.reset) {
       $("#" + el.id).queryBuilder("reset");
-    }
-    if (value.setRules !== null) {
-      // Update queryBuilder with a set of rules
-      $("#" + el.id).queryBuilder("setRules", value.setRules);
     }
   },
   subscribe: (el, callback) => {
@@ -64,4 +81,4 @@ $.extend(queryBuilderBinding, {
   },
 });
 
-Shiny.inputBindings.register(queryBuilderBinding, "qbr2.queryBuilderBinding");
+Shiny.inputBindings.register(queryBuilderBinding, "qbr.queryBuilderBinding");

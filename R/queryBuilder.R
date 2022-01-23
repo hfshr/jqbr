@@ -80,9 +80,8 @@ queryBuilderInput <- function(inputId,
 
   options <- dropNulls(options)
 
-  options <- jsonlite::toJSON(
-    options,
-    auto_unbox = TRUE
+  options <- htmlwidgets:::toJSON(
+    options
   )
 
   div(
@@ -93,30 +92,33 @@ queryBuilderInput <- function(inputId,
     tags$div(
       id = inputId,
       class = "queryBuilderBinding",
-      "data-options" = options
+      tags$script(
+        type = "application/json",
+        `data-for` = inputId,
+        options
+      )
     )
   )
 }
 
-useQueryBuilder <- function(bs_version = 3) {
-  if (bs_version == 3) {
-    htmltools::htmlDependency(
-      name = "queryBuilderBinding",
-      version = "1.0.0",
-      src = c(file = system.file("packer", package = "qbr")),
-      script = c("queryBuilder.js", "query-builder.standalone.min.js"),
-      stylesheet = "query-builder.standalone.min.css"
-    )
-  } else {
-    htmltools::htmlDependency(
-      name = "queryBuilderBinding",
-      version = "1.0.0",
-      src = c(file = system.file("packer", package = "qbr")),
-      script = c("queryBuilder.js", "query-builder-bs4.standalone.min.js"),
-      stylesheet = "query-builder-bs4.standalone.min.css"
-    )
-  }
+useQueryBuilder <- function(bs_version = 3, sortable = FALSE) {
+  query_builder_bs <- sprintf(
+    "query-builder-bs%s.standalone.min.js",
+    bs_version
+  )
+
+  querybuilder <- htmltools::htmlDependency(
+    name = "queryBuilderBinding",
+    version = "1.0.0",
+    src = c(file = system.file("packer", package = "qbr")),
+    script = c("queryBuilder.js", query_builder_bs),
+    stylesheet = "query-builder.standalone.min.css"
+  )
+
+
+  querybuilder
 }
+
 
 
 
@@ -128,12 +130,14 @@ useQueryBuilder <- function(bs_version = 3) {
 #'
 #'
 updateQueryBuilder <- function(inputId,
-                               setFilters = NULL,
+                               setFilters = FALSE,
+                               addFilters = FALSE,
                                destroy = FALSE,
                                reset = FALSE,
                                session = getDefaultReactiveDomain()) {
   message <- list(
     setFilters = setFilters,
+    addFilters = addFilters,
     destroy = destroy,
     reset = reset
   )
@@ -167,4 +171,18 @@ validate_filters <- function(filters) {
 
 dropNulls <- function(x) {
   x[!vapply(x, is.null, FUN.VALUE = logical(1))]
+}
+
+
+
+
+plugin_deps <- function(sortable = FALSE) {
+  if (sortable) {
+    htmltools::htmlDependency(
+      name = "interactjs",
+      version = "1.10.11",
+      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.0.2/1.10.11/"),
+      script = "interact.min.js"
+    )
+  }
 }

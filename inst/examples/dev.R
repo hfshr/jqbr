@@ -1,11 +1,14 @@
 library(shiny)
 
-
+description <- htmlwidgets::JS("function(rule) {
+  return 'The description for ' + (rule.operator ? rule.operator.type : 'anything');
+  }")
 filters <- list(
   list(
     id = "name",
     label = "Name",
-    type = "string"
+    type = "string",
+    description = description
   ),
   list(
     id = "category",
@@ -31,6 +34,7 @@ filters <- list(
   )
 )
 
+
 rules <- list(
   rules = list(
     list(
@@ -41,7 +45,14 @@ rules <- list(
   )
 )
 
-options(shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE))
+plugins <- list(
+  # sortable = NULL
+  "filter-description" = list("mode" = "inline")
+)
+options(
+  shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE),
+  shiny.port = httpuv::randomPort()
+)
 
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 5),
@@ -51,7 +62,8 @@ ui <- fluidPage(
       width = 6,
       queryBuilderInput("qb",
         filters = filters,
-        rules = rules
+        rules = rules,
+        plugins = plugins,
       )
     ),
     column(
@@ -63,7 +75,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   observe({
-    print(input$qb$rules)
+    print(input$qb)
   })
 
   new_rules <- list(
@@ -76,14 +88,17 @@ server <- function(input, output, session) {
   observe({
     updateQueryBuilder(
       inputId = "qb",
-      reset = TRUE
+      setFilters = new_rules
     )
   }) |>
     bindEvent(input$update)
 
   session$onSessionEnded(function() {
-    stopApp()
+    shiny::stopApp()
   })
 }
 
 shinyApp(ui = ui, server = server)
+
+
+htmlwidgets::JSEvals()
