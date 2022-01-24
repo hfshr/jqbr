@@ -23,12 +23,12 @@
 #' library(shiny)
 #'
 #' ui <- fluidPage(
-#'   queryBuilderInput("theId", 0)
+#'   queryBuilderInput("qb")
 #' )
 #'
 #' server <- function(input, output) {
-#'   observeEvent(input$theId, {
-#'     print(input$theId)
+#'   observeEvent(input$qb, {
+#'     print(input$qb)
 #'   })
 #' }
 #'
@@ -78,6 +78,9 @@ queryBuilderInput <- function(inputId,
     operators = operators
   )
 
+  plugin_names <- find_plugins(plugins)
+  print(plugin_names)
+
   options <- dropNulls(options)
 
   options <- jsonlite::toJSON(
@@ -86,7 +89,7 @@ queryBuilderInput <- function(inputId,
     json_verbatim = TRUE
   )
 
-  div(
+  qb <- tags$div(
     class = "form-group shiny-input-container",
     style = if (!is.null(width)) {
       paste0("width: ", shiny::validateCssUnit(width), ";")
@@ -100,6 +103,12 @@ queryBuilderInput <- function(inputId,
         options
       )
     )
+  )
+
+
+  shiny::tagList(
+    plugin_deps(plugin_names),
+    qb,
   )
 }
 
@@ -116,20 +125,6 @@ useQueryBuilder <- function(bs_version = 3, sortable = FALSE) {
     script = c("queryBuilder.js", query_builder_bs),
     stylesheet = "query-builder.standalone.min.css"
   )
-
-
-  # if (sortable) {
-  #   querybuilder <- htmltools::attachDependencies(
-  #     querybuilder,
-  #     htmltools::htmlDependency(
-  #       name = "interactjs",
-  #       version = "1.10.11",
-  #       src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.0.2/1.10.11/"),
-  #       script = "interact.min.js"
-  #     )
-  #   )
-  # }
-
 
 
   querybuilder
@@ -198,7 +193,15 @@ dropNulls <- function(x) {
 
 
 
-plugin_deps <- function() {
 
 
-}
+# sortable_dep <- function(sortable) {
+#   if (sortable) {
+#     htmltools::htmlDependency(
+#       name = "interactjs",
+#       version = "1.10.11",
+#       src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/"),
+#       script = "interact.min.js"
+#     )
+#   }
+# }

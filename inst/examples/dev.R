@@ -21,7 +21,7 @@ filters <- list(
     id = "category",
     label = "Category",
     type = "integer",
-    input = "select",
+    input = "checkbox",
     values = list(
       "Books",
       "Movies",
@@ -53,8 +53,9 @@ rules <- list(
 )
 
 plugins <- list(
-  # sortable = NULL
-  "filter-description" = list("mode" = "inline")
+  "sortable" = NULL,
+  "filter-description" = list("mode" = "bootbox"),
+  "bt-checkbox" = NULL
 )
 options(
   shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE),
@@ -63,7 +64,7 @@ options(
 
 ui <- fluidPage(
   theme = bslib::bs_theme(version = 5),
-  useQueryBuilder(bs_version = 5),
+  useQueryBuilder(bs_version = 5, sortable = TRUE),
   fluidRow(
     column(
       width = 6,

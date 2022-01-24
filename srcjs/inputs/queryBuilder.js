@@ -1,6 +1,13 @@
 import $ from "jquery";
 import "shiny";
 
+const _escapeHtml = (unsafe) => {
+  return unsafe
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+};
+
 var queryBuilderBinding = new Shiny.InputBinding();
 
 $.extend(queryBuilderBinding, {
@@ -12,22 +19,14 @@ $.extend(queryBuilderBinding, {
     var element = document.getElementById(el.id);
     var options = element.querySelector('script[data-for="' + el.id + '"]');
     var parsedOptions = JSON.parse(options.innerHTML, function (key, value) {
+      // ugly hack to parse strings that are functions :(
       if (typeof value === "string" && value.startsWith("function(")) {
         value = _escapeHtml(value);
-        console.log(value);
+        // console.log(value);
         return (0, eval)("(" + value + ")");
       }
       return value;
     });
-
-    // var test = escapeHtml(options.innerHTML);
-    // console.log(test);
-    // // options = JSON.parse(test);
-    // console.log(options);
-
-    // var obj2 = JSON.stringify(options.filters);
-
-    // console.log(obj2);
 
     $("#" + el.id).queryBuilder(parsedOptions);
   },
@@ -85,21 +84,3 @@ $.extend(queryBuilderBinding, {
 });
 
 Shiny.inputBindings.register(queryBuilderBinding, "qbr.queryBuilderBinding");
-
-// function Iterate(data) {
-//   jQuery.each(data, function (index, value) {
-//     if (typeof value == "object") {
-//       Iterate(value);
-//     } else {
-//       if (value.indexOf("function(rule)") > -1)
-//         data[index] = eval("(" + value + ")");
-//     }
-//   });
-// }
-
-const _escapeHtml = (unsafe) => {
-  return unsafe
-    .replaceAll("&amp;", "&")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">");
-};
