@@ -80,8 +80,10 @@ queryBuilderInput <- function(inputId,
 
   options <- dropNulls(options)
 
-  options <- htmlwidgets:::toJSON(
-    options
+  options <- jsonlite::toJSON(
+    options,
+    auto_unbox = TRUE,
+    json_verbatim = TRUE
   )
 
   div(
@@ -116,6 +118,20 @@ useQueryBuilder <- function(bs_version = 3, sortable = FALSE) {
   )
 
 
+  # if (sortable) {
+  #   querybuilder <- htmltools::attachDependencies(
+  #     querybuilder,
+  #     htmltools::htmlDependency(
+  #       name = "interactjs",
+  #       version = "1.10.11",
+  #       src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.0.2/1.10.11/"),
+  #       script = "interact.min.js"
+  #     )
+  #   )
+  # }
+
+
+
   querybuilder
 }
 
@@ -130,8 +146,8 @@ useQueryBuilder <- function(bs_version = 3, sortable = FALSE) {
 #'
 #'
 updateQueryBuilder <- function(inputId,
-                               setFilters = FALSE,
-                               addFilters = FALSE,
+                               setFilters = NULL,
+                               addFilters = NULL,
                                destroy = FALSE,
                                reset = FALSE,
                                session = getDefaultReactiveDomain()) {
@@ -140,6 +156,12 @@ updateQueryBuilder <- function(inputId,
     addFilters = addFilters,
     destroy = destroy,
     reset = reset
+  )
+
+  message <- jsonlite::toJSON(
+    message,
+    null = "null",
+    auto_unbox = TRUE
   )
 
   session$sendInputMessage(inputId, message = message)
@@ -176,13 +198,7 @@ dropNulls <- function(x) {
 
 
 
-plugin_deps <- function(sortable = FALSE) {
-  if (sortable) {
-    htmltools::htmlDependency(
-      name = "interactjs",
-      version = "1.10.11",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.0.2/1.10.11/"),
-      script = "interact.min.js"
-    )
-  }
+plugin_deps <- function() {
+
+
 }

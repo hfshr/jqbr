@@ -11,36 +11,39 @@ $.extend(queryBuilderBinding, {
     // var options = $(el).data("options");
     var element = document.getElementById(el.id);
     var options = element.querySelector('script[data-for="' + el.id + '"]');
-    options = JSON.parse(options.innerHTML);
+    var parsedOptions = JSON.parse(options.innerHTML, function (key, value) {
+      if (typeof value === "string" && value.startsWith("function(")) {
+        value = _escapeHtml(value);
+        console.log(value);
+        return (0, eval)("(" + value + ")");
+      }
+      return value;
+    });
 
-    // function Iterate(data) {
-    //   jQuery.each(data, function (index, value) {
-    //     if (typeof value == "object") {
-    //       Iterate(value);
-    //     } else {
-    //       if (value.indexOf("function(rule)") > -1)
-    //         data[index] = eval("(" + value + ")");
-    //     }
-    //   });
-    // }
+    // var test = escapeHtml(options.innerHTML);
+    // console.log(test);
+    // // options = JSON.parse(test);
+    // console.log(options);
 
-    // Iterate(options.filters);
+    // var obj2 = JSON.stringify(options.filters);
 
-    $("#" + el.id).queryBuilder(options);
+    // console.log(obj2);
+
+    $("#" + el.id).queryBuilder(parsedOptions);
   },
   getValue: (el) => {
     var rules = $("#" + el.id).queryBuilder("getRules");
     var sql_rules = $("#" + el.id).queryBuilder("getSQL");
-    // return { rules: rules, sql_rules: sql_rules };
-    return rules;
+    return { rules: rules, sql_rules: sql_rules };
   },
   setValue: (el, value) => {
     // Remove all filters and replace with new ones
-    if (value.setFilters !== null) {
+    console.log(value.setFilters, value.setRules, value.destory, value.reset);
+    if (value.setFilters != null) {
       $("#" + el.id).queryBuilder("setFilters", true, value.setFilters);
     }
     // Update queryBuilder with a set of rules
-    if (value.setRules !== null) {
+    if (value.setRules != null) {
       $("#" + el.id).queryBuilder("setRules", value.setRules);
     }
     // destory queryBuilder
@@ -82,3 +85,21 @@ $.extend(queryBuilderBinding, {
 });
 
 Shiny.inputBindings.register(queryBuilderBinding, "qbr.queryBuilderBinding");
+
+// function Iterate(data) {
+//   jQuery.each(data, function (index, value) {
+//     if (typeof value == "object") {
+//       Iterate(value);
+//     } else {
+//       if (value.indexOf("function(rule)") > -1)
+//         data[index] = eval("(" + value + ")");
+//     }
+//   });
+// }
+
+const _escapeHtml = (unsafe) => {
+  return unsafe
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+};

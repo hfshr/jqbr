@@ -1,8 +1,15 @@
 library(shiny)
 
-description <- htmlwidgets::JS("function(rule) {
-  return 'The description for ' + (rule.operator ? rule.operator.type : 'anything');
-  }")
+description <-
+  "function(rule) {
+    if (rule.operator && ['in', 'not_in'].indexOf(rule.operator.type) !== -1) {
+      return 'Use a pipe (|) to separate multiple values with in and not in operators';}}"
+
+# description <- "function(rule) {
+#         return 'The description for ' + (rule.operator ? rule.operator.type : 'anything');}"
+
+# class(description) <- "json"
+
 filters <- list(
   list(
     id = "name",
@@ -99,6 +106,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui = ui, server = server)
-
-
-htmlwidgets::JSEvals()
