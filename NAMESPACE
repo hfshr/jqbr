@@ -2,10 +2,8 @@
 
 export(filterTable)
 export(queryBuilderInput)
-export(resetQueryBuilder)
 importFrom(dplyr,`%>%`)
 importFrom(dplyr,filter)
 importFrom(rlang,parse_expr)
-importFrom(shiny,actionButton)
 importFrom(shiny,tagList)
 importFrom(shiny,tags)

@@ -21,8 +21,9 @@ $.extend(queryBuilderBinding, {
     var parsedOptions = JSON.parse(options.innerHTML, function (key, value) {
       // ugly hack to parse strings that are functions :(
       if (typeof value === "string" && value.startsWith("function(")) {
+        console.log(value);
         value = _escapeHtml(value);
-        // console.log(value);
+        console.log(value);
         return (0, eval)("(" + value + ")");
       }
       return value;

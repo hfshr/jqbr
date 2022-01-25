@@ -59,6 +59,7 @@ queryBuilderInput <- function(inputId,
   stopifnot(!missing(filters))
 
   validate_filters(filters)
+  validate_plugins(plugins)
 
   options <- list(
     filters = filters,
@@ -104,7 +105,9 @@ queryBuilderInput <- function(inputId,
       )
     )
   )
-
+  print(
+    plugin_deps(plugin_names)
+  )
 
   shiny::tagList(
     plugin_deps(plugin_names),
@@ -112,24 +115,20 @@ queryBuilderInput <- function(inputId,
   )
 }
 
-useQueryBuilder <- function(bs_version = 3, sortable = FALSE) {
+useQueryBuilder <- function(bs_version = 3) {
   query_builder_bs <- sprintf(
     "query-builder-bs%s.standalone.min.js",
     bs_version
   )
 
-  querybuilder <- htmltools::htmlDependency(
+  htmltools::htmlDependency(
     name = "queryBuilderBinding",
     version = "1.0.0",
     src = c(file = system.file("packer", package = "qbr")),
     script = c("queryBuilder.js", query_builder_bs),
     stylesheet = "query-builder.standalone.min.css"
   )
-
-
-  querybuilder
 }
-
 
 
 
@@ -161,47 +160,3 @@ updateQueryBuilder <- function(inputId,
 
   session$sendInputMessage(inputId, message = message)
 }
-
-
-
-# x <- list(
-#   list(id = "a"),
-#   list(id = "b"),
-#   "a"
-# )
-
-
-
-validate_filters <- function(filters) {
-  if (!is.list(filters)) {
-    rlang::abort(
-      "Filters must be supplied in a list"
-    )
-  }
-
-  if (FALSE %in% unlist(lapply(filters, is.list))) {
-    rlang::abort(
-      "All filters must be a list"
-    )
-  }
-}
-
-dropNulls <- function(x) {
-  x[!vapply(x, is.null, FUN.VALUE = logical(1))]
-}
-
-
-
-
-
-
-# sortable_dep <- function(sortable) {
-#   if (sortable) {
-#     htmltools::htmlDependency(
-#       name = "interactjs",
-#       version = "1.10.11",
-#       src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/"),
-#       script = "interact.min.js"
-#     )
-#   }
-# }

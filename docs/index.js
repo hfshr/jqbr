@@ -20,10 +20,6 @@ new Docute({
           title: "Getting Started",
           link: "/getting-started",
         },
-        {
-          title: "Installation",
-          link: "/installation",
-        },
       ],
     },
     // An external link
