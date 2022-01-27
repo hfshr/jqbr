@@ -18,6 +18,66 @@ filters <- list(
     description = description
   ),
   list(
+    id = "rate",
+    label = "Slider",
+    type = "integer",
+    validation = list(
+      min = 0,
+      max = 100
+    ),
+    plugin = "slider",
+    plugin_config = list(
+      min = 0,
+      max = 100,
+      value = 0
+    )
+  ),
+  list(
+    id = "date",
+    label = "Datepicker",
+    type = "date",
+    validation = list(
+      format = "YYYY/MM/DD"
+    ),
+    plugin = "datepicker",
+    plugin_config = list(
+      format = "yyyy/mm/dd",
+      todayBtn = "linked",
+      todayHighlight = TRUE,
+      autoclose = TRUE
+    )
+  ),
+  list(
+    id = "state",
+    label = "State",
+    icon = "glyphicon glyphicon-globe",
+    type = "string",
+    input = "select",
+    multiple = T,
+    plugin = "selectize",
+    plugin_config = list(
+      valueField = "id",
+      labelField = "name",
+      searchField = "name",
+      sortField = "name",
+      options = list(
+        list(id = "AL", name = "Alabama"),
+        list(id = "AK", name = "Alaska"),
+        list(id = "AZ", name = "Arizona"),
+        list(id = "AR", name = "Arkansas"),
+        list(id = "CA", name = "California"),
+        list(id = "CO", name = "Colorado"),
+        list(id = "CT", name = "Connecticut"),
+        list(id = "DE", name = "Delaware"),
+        list(id = "DC", name = "District of Columbia"),
+        list(id = "FL", name = "Florida"),
+        list(id = "GA", name = "Georgia"),
+        list(id = "HI", name = "Hawaii"),
+        list(id = "ID", name = "Idaho")
+      )
+    )
+  ),
+  list(
     id = "category",
     label = "Category",
     type = "integer",
@@ -114,15 +174,30 @@ options(
 )
 
 ui <- fluidPage(
-  theme = bslib::bs_theme(version = 5),
-  useQueryBuilder(bs_version = 5),
+  theme = bslib::bs_theme(version = "4"),
+  useQueryBuilder(bs_version = "4"),
+  tags$head(
+    tags$script(
+      "
+    $( document ).ready(function() {
+    $('#qb').on('afterCreateRuleInput.queryBuilder', function(e, rule) {
+  if (rule.filter.plugin == 'selectize') {
+    rule.$el.find('.rule-value-container').css('min-width', '200px')
+      .find('.selectize-control').removeClass('form-control');
+  }
+});
+});"
+    )
+  ),
   fluidRow(
     column(
       width = 6,
       queryBuilderInput("qb",
         filters = filters,
         rules = rules,
-        plugins = plugins
+        plugins = plugins,
+        return_value = "all",
+        display_errors = TRUE
       )
     ),
     column(
@@ -134,6 +209,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   observe({
+    req(input$qb_valid)
     print(input$qb)
   })
 

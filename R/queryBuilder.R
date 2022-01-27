@@ -54,7 +54,9 @@ queryBuilderInput <- function(inputId,
                               inputs_separator = ",",
                               display_empty_filter = TRUE,
                               select_placeholder = "------",
-                              operators = NULL) {
+                              operators = NULL,
+                              return_value = c("rules", "sql", "r_rules", "all"),
+                              output_options = NULL) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
@@ -82,6 +84,8 @@ queryBuilderInput <- function(inputId,
   plugin_names <- find_plugins(plugins)
   print(plugin_names)
 
+  return_value <- match.arg(return_value)
+
   options <- dropNulls(options)
 
   options <- jsonlite::toJSON(
@@ -98,6 +102,7 @@ queryBuilderInput <- function(inputId,
     tags$div(
       id = inputId,
       class = "queryBuilderBinding",
+      `data-return` = return_value,
       tags$script(
         type = "application/json",
         `data-for` = inputId,
@@ -111,15 +116,20 @@ queryBuilderInput <- function(inputId,
 
   shiny::tagList(
     plugin_deps(plugin_names),
+    widget_deps(filters),
     qb,
   )
 }
 
-useQueryBuilder <- function(bs_version = 3) {
+
+useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
+  bs_version <- match.arg(bs_version)
+
   query_builder_bs <- sprintf(
     "query-builder-bs%s.standalone.min.js",
     bs_version
   )
+
 
   htmltools::htmlDependency(
     name = "queryBuilderBinding",

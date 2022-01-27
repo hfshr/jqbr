@@ -77,5 +77,68 @@ plugin_deps <- function(plugins) {
             bt_checkbox
         )
     }
+
+    all_deps
+}
+
+widget_deps <- function(filters) {
+    widget_dep_names <- unlist(
+        dropNulls(
+            lapply(filters, `[[`, "plugin")
+        )
+    )
+
+    all_deps <- htmltools::tagList()
+
+    if ("slider" %in% widget_dep_names) {
+        slider <- htmltools::htmlDependency(
+            name = "bootstrap-slider",
+            version = "11.0.2",
+            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/"),
+            script = "bootstrap-slider.min.js",
+            stylesheet = "css/bootstrap-slider.min.css"
+        )
+        all_deps <- htmltools::tagList(
+            all_deps,
+            slider
+        )
+    }
+
+    if ("datepicker" %in% widget_dep_names) {
+        datepicker <- htmltools::htmlDependency(
+            name = "datepicker",
+            version = "1.9.0",
+            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/"),
+            script = "js/bootstrap-datepicker.min.js",
+            stylesheet = "css/bootstrap-datepicker.standalone.min.css"
+        )
+        moment <- htmltools::htmlDependency(
+            name = "moment",
+            version = "2.29.1",
+            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/"),
+            script = "moment.min.js"
+        )
+
+        all_deps <- htmltools::tagList(
+            all_deps,
+            datepicker,
+            moment
+        )
+    }
+
+    if ("selectize" %in% widget_dep_names) {
+        selectize <- htmltools::htmlDependency(
+            name = "selectize",
+            version = "0.13.3",
+            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/"),
+            script = "js/standalone/selectize.min.js",
+            stylesheet = "css/selectize.default.min.css"
+        )
+        all_deps <- htmltools::tagList(
+            all_deps,
+            selectize
+        )
+    }
+
     all_deps
 }
