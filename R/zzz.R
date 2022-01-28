@@ -4,7 +4,7 @@
         if (is.null(data)) {
             NULL
         } else {
-            recurseFilter(data[["rules"]])
+            recurse_filter(data[["rules"]])
         }
     }, force = TRUE)
     shiny::registerInputHandler("qbr.rules", function(data, ...) {
@@ -26,7 +26,7 @@
             NULL
         } else {
             list(
-                r_rules = recurseFilter(data[["rules"]]),
+                r_rules = recurse_filter(data[["rules"]]),
                 sql_rules = data[["sql_rules"]],
                 rules = data[["rules"]]
             )

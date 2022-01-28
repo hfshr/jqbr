@@ -21,7 +21,9 @@ queryBuilderInput(
   inputs_separator = ",",
   display_empty_filter = TRUE,
   select_placeholder = "------",
-  operators = NULL
+  operators = NULL,
+  return_value = c("rules", "sql", "r_rules", "all"),
+  output_options = NULL
 )
 }
 \arguments{

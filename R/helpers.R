@@ -6,43 +6,24 @@
 
 #' Apply query to a dataframe
 #'
-#' Filter a data frame using the output of a queryBuilder htmlWidget.
+#' Filter a data frame using the output of a queryBuilder.
 #'
-#' @param filters output from queryBuilder htmlWidget sent from
+#' @param data data frame to filter
+#'
+#' @param filters output from queryBuilder sent from
 #'  shiny app as \code{input$el_out}
 #' where \code{el} is the htmlWidget element
-#' @param data data frame to filter
-#' @param date_format optional string specifying the date format
-#' used with the datepicker
-#' plugin. See `?as.Date()`.
-#' @param output string return either a filtered data frame (table) or a
-#' text representation
-#' of the filter (text)
 #'
-#' @importFrom dplyr filter `%>%`
-#' @importFrom rlang parse_expr
 #'
 #' @export
-filterTable <- function(filters = NULL,
-                        data = NULL,
-                        date_format = NULL,
-                        output = c("table", "text")) {
+filter_table <- function(data = NULL,
+                         filters = NULL) {
   output <- match.arg(output)
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
-  ## Run through list recursively and generate a filter
-  f <- recurseFilter(
-    filter = filters,
-    date_format = date_format
-  )
-  if (output == "text") {
-    return(f)
-  } else if (output == "table") {
-    df <- data %>%
-      dplyr::filter(!!rlang::parse_expr(f))
-    return(df)
-  }
+  df <- subset(data, eval(parse(text = filters)))
+  return(df)
 }
 
 
@@ -144,7 +125,7 @@ lookup <- function(id, operator, value) {
   }
 }
 
-#' recurseFilter
+#' recurse_filter
 #'
 #' internal recursive function to process filter
 #'
@@ -154,7 +135,7 @@ lookup <- function(id, operator, value) {
 #'
 #' @noRd
 #'
-recurseFilter <- function(filter = NULL, date_format = NULL) {
+recurse_filter <- function(filter = NULL, date_format = NULL) {
   condition <- list("AND" = "&", "OR" = "|")
   fs <- NULL
   for (i in seq_along(filter$rules)) {
@@ -162,24 +143,31 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
       if (is.null(fs)) {
         fs <- paste0(
           "(",
-          recurseFilter(filter = filter$rules[[i]]), ")"
+          recurse_filter(filter = filter$rules[[i]]), ")"
         ) # first filter
       } else {
         fs <- paste(fs, paste0(
           "(",
-          recurseFilter(filter = filter$rules[[i]]), ")"
+          recurse_filter(filter = filter$rules[[i]]), ")"
         ),
         sep = paste0(" ", condition[[filter$condition]], " ")
         ) ## subsequent filters
       }
     } else { # not a nested filter group - process as a single filter
-      if (length(filter$rules[[i]]$value) == 0) { # value is list() when checking for NA
+      if (length(filter$rules[[i]]$value) == 0) {
+        # value is list() when checking for NA
         value <- 0
-      } else if (filter$rules[[i]]$type == "date") { # treat dates
+      } else if (filter$rules[[i]]$type == "date") {
+        # treat dates
         if (length(filter$rules[[i]]$value) > 1) {
           value <- lapply(
             filter$rules[[i]]$value,
-            function(x) paste0('as.Date(\"', x, '\", format = ', date_format, " )")
+            function(x) {
+              paste0(
+                'as.Date(\"', x, '\", format = ',
+                date_format, " )"
+              )
+            }
           ) # date range
         } else {
           value <- paste0(
@@ -187,14 +175,16 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
             '\", format = \"', date_format, '\")'
           ) # single date
         }
-      } else if (filter$rules[[i]]$type == "string") { # enclose strings in quotes
+      } else if (filter$rules[[i]]$type == "string") {
+        # enclose strings in quotes
         if (length(filter$rules[[i]]$value) > 1) {
           value <- lapply(
             filter$rules[[i]]$value,
             function(x) paste0('\"', x, '\"')
           ) # list of strings
         } else {
-          value <- paste0('\"', filter$rules[[i]]$value, '\"') # single string
+          # single string
+          value <- paste0('\"', filter$rules[[i]]$value, '\"')
         }
       } else {
         value <- filter$rules[[i]]$value
@@ -208,7 +198,7 @@ recurseFilter <- function(filter = NULL, date_format = NULL) {
         fs <- paste(fs, lookup(
           filter$rules[[i]]$id,
           filter$rules[[i]]$operator, value
-        ), sep = paste0(" ", condition[[filter$condition]], " ")) # subsequent filters
+        ), sep = paste0(" ", condition[[filter$condition]], " "))
       }
     }
   }

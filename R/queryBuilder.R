@@ -86,7 +86,7 @@ queryBuilderInput <- function(inputId,
 
   return_value <- match.arg(return_value)
 
-  options <- dropNulls(options)
+  options <- drop_nulls(options)
 
   options <- jsonlite::toJSON(
     options,

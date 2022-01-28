@@ -83,7 +83,7 @@ plugin_deps <- function(plugins) {
 
 widget_deps <- function(filters) {
     widget_dep_names <- unlist(
-        dropNulls(
+        drop_nulls(
             lapply(filters, `[[`, "plugin")
         )
     )
