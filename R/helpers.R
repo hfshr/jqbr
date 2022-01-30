@@ -10,15 +10,25 @@
 #'
 #' @param data data frame to filter
 #'
-#' @param filters output from queryBuilder sent from
-#'  shiny app as \code{input$el_out}
-#' where \code{el} is the htmlWidget element
+#' @param filters output from queryBuilder when `return_value = "r_rules"`.
+#'
+#' @examples
+#'
+#' library(shiny)
+#' library(qbr)
+#'
+#' ui <- fluidPage()
+#'
+#' server <- function(input, output) {
+#' }
 #'
 #'
+#' if (interactive) {
+#'   shinyApp(ui, server)
+#' }
 #' @export
 filter_table <- function(data = NULL,
                          filters = NULL) {
-  output <- match.arg(output)
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
@@ -164,16 +174,15 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
             filter$rules[[i]]$value,
             function(x) {
               paste0(
-                'as.Date(\"', x, '\", format = ',
-                date_format, " )"
+                '\"', x, '\"'
               )
             }
           ) # date range
         } else {
           value <- paste0(
-            'as.Date(\"', filter$rules[[i]]$value,
-            '\", format = \"', date_format, '\")'
-          ) # single date
+            '\"', filter$rules[[i]]$value,
+            '\"'
+          )
         }
       } else if (filter$rules[[i]]$type == "string") {
         # enclose strings in quotes

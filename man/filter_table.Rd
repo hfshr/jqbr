@@ -4,27 +4,14 @@
 \alias{filter_table}
 \title{Apply query to a dataframe}
 \usage{
-filter_table(
-  filters = NULL,
-  data = NULL,
-  date_format = NULL,
-  output = c("table", "text")
-)
+filter_table(data = NULL, filters = NULL)
 }
 \arguments{
+\item{data}{data frame to filter}
+
 \item{filters}{output from queryBuilder sent from
 shiny app as \code{input$el_out}
 where \code{el} is the htmlWidget element}
-
-\item{data}{data frame to filter}
-
-\item{date_format}{optional string specifying the date format
-used with the datepicker
-plugin. See \code{?as.Date()}.}
-
-\item{output}{string return either a filtered data frame (table) or a
-text representation
-of the filter (text)}
 }
 \description{
 Filter a data frame using the output of a queryBuilder.

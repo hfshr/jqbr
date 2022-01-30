@@ -2,5 +2,8 @@
 
 export(filter_table)
 export(queryBuilderInput)
-importFrom(shiny,tagList)
-importFrom(shiny,tags)
+export(run_qbr_demo)
+export(updateQueryBuilder)
+importFrom(htmltools,tagList)
+importFrom(htmltools,tags)
+importFrom(jsonlite,toJSON)

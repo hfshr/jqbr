@@ -9,12 +9,18 @@ description <-
 #         return 'The description for ' + (rule.operator ? rule.operator.type : 'anything');}"
 
 # class(description) <- "json"
-
+mtcars
 filters <- list(
   list(
     id = "name",
     label = "Name",
     type = "string",
+    description = description
+  ),
+  list(
+    id = "carb",
+    label = "Carb",
+    type = "integer",
     description = description
   ),
   list(
@@ -152,19 +158,19 @@ filters <- list(
 
 
 
-rules <- list(
-  rules = list(
-    list(
-      id = "name",
-      operator = "equal",
-      value = "hello"
-    )
-  )
-)
+# rules <- list(
+#   rules = list(
+#     list(
+#       id = "name",
+#       operator = "equal",
+#       value = "hello"
+#     )
+#   )
+# )
 
 plugins <- list(
   # "sortable" = NULL
-  "filter-description" = list("mode" = "bootbox")
+  "filter-description" = list("mode" = "inline")
   # "bt-checkbox" = NULL,
   # "invert" = NULL
 )
@@ -174,8 +180,8 @@ options(
 )
 
 ui <- fluidPage(
-  theme = bslib::bs_theme(version = "4"),
-  useQueryBuilder(bs_version = "4"),
+  theme = bslib::bs_theme(version = "5"),
+  useQueryBuilder(bs_version = "5"),
   tags$head(
     tags$script(
       "
@@ -196,13 +202,19 @@ ui <- fluidPage(
         filters = filters,
         rules = rules,
         plugins = plugins,
-        return_value = "all",
+        return_value = "r_rules",
         display_errors = TRUE
       )
     ),
     column(
       width = 4,
       actionButton("update", "Update")
+    )
+  ),
+  fluidRow(
+    column(
+      width = 6,
+      tableOutput("table")
     )
   )
 )
@@ -220,13 +232,24 @@ server <- function(input, output, session) {
     )
   )
 
-  observe({
-    updateQueryBuilder(
-      inputId = "qb",
-      setFilters = new_rules
+  # observe({
+  #   updateQueryBuilder(
+  #     inputId = "qb",
+  #     setFilters = new_rules
+  #   )
+  # }) |>
+  #   bindEvent(input$update)
+
+  output$table <- renderTable({
+    req(input$qb_valid)
+    filter_table(
+      data = mtcars,
+      filters = input$qb,
+      output = "table"
     )
-  }) |>
-    bindEvent(input$update)
+  })
+
+
 
   session$onSessionEnded(function() {
     shiny::stopApp()

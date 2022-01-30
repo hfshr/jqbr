@@ -16,7 +16,6 @@ $.extend(queryBuilderBinding, {
   },
   getType: function (el) {
     let return_type = $(el).attr("data-return");
-    console.log(return_type);
     if (return_type === "r_rules") {
       return "qbr.r_rules";
     }

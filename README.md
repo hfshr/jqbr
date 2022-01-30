@@ -7,11 +7,17 @@
 
 <!-- badges: end -->
 
-Shiny input for [jQuery queryBuilder](https://querybuilder.js.org/index.html)
+R Shiny input for [jQuery queryBuilder](https://querybuilder.js.org/index.html)
 
 # Installation
 
 ```r
-# install.packages("remotes")
-remotes::install_github("hfshr/qbr")
+# install.packages("pak")
+pak::pak("hfshr/qbr")
 ```
+
+# Credits
+
+jQuery QueryBuilder
+packer
+queryBuilder

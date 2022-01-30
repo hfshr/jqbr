@@ -43,7 +43,7 @@ plugin_deps <- function(plugins) {
         bs_select <- htmltools::htmlDependency(
             name = "bt-selectpicker",
             version = "1.13.18",
-            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/"),
+            src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/"),
             script = "bootstrap-select.min.js"
         )
         all_deps <- htmltools::tagList(
@@ -81,6 +81,7 @@ plugin_deps <- function(plugins) {
     all_deps
 }
 
+# Add dependencies for any named widgets
 widget_deps <- function(filters) {
     widget_dep_names <- unlist(
         drop_nulls(
@@ -112,6 +113,7 @@ widget_deps <- function(filters) {
             script = "js/bootstrap-datepicker.min.js",
             stylesheet = "css/bootstrap-datepicker.standalone.min.css"
         )
+        # For datetime validation
         moment <- htmltools::htmlDependency(
             name = "moment",
             version = "2.29.1",

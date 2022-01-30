@@ -8,13 +8,22 @@ updateQueryBuilder(
   inputId,
   setFilters = NULL,
   addFilters = NULL,
+  setRules = NULL,
   destroy = FALSE,
   reset = FALSE,
   session = getDefaultReactiveDomain()
 )
 }
 \arguments{
-\item{setFilters}{}
+\item{inputId}{inputId of builder}
+
+\item{setFilters}{list of lists container new filters}
+
+\item{addFilters}{list of lists contaiing filters to add}
+
+\item{destroy}{bool. \code{TRUE} to destory filter}
+
+\item{reset}{bool. \code{TRUE} to reset filter}
 }
 \description{
 Update a queryBuilder with available methods.

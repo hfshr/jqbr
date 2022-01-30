@@ -22,7 +22,7 @@ queryBuilderInput(
   display_empty_filter = TRUE,
   select_placeholder = "------",
   operators = NULL,
-  return_value = c("rules", "sql", "r_rules", "all"),
+  return_value = c("r_rules", "rules", "sql", "all"),
   output_options = NULL
 )
 }
@@ -42,24 +42,27 @@ By default the builder will contain one empty rule}
 
 \item{sort_filters}{boolean|function. Sort filters alphabetically, or with a custom JS function.}
 
-\item{allow_groups}{boolean|int. Number of allowed nested groups. \code{TRUE} for no limit.}
+\item{allow_groups}{boolean|int. Number of allowed nested groups.
+\code{TRUE} for no limit.}
 
 \item{allow_empty}{bool. If \code{TRUE}, no error will be thrown if the builder is entirely empty.}
 
 \item{display_errors}{bool. If \code{TRUE}, when an error occurs on a rule, display an icon with a tooltip
 explaining the error.}
 
-\item{conditions}{string. Array of available group conditions. Use the \code{lang} option to change the label.}
+\item{conditions}{string. Array of available group conditions. Use the
+\code{lang} option to change the label.}
 
 \item{select_placeholder}{string. Label of the "no filter" option.}
 
 \item{lang}{Additional/overwrites translation strings.}
 }
 \description{
-Shiny input for queryBuilder .
+Shiny input for queryBuilder.
 }
 \examples{
 library(shiny)
+library(qbr)
 
 ui <- fluidPage(
   queryBuilderInput("qb")
