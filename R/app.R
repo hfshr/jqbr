@@ -1,3 +1,12 @@
+#' run_qbr_demo
+#'
+#' Run the qbr demo app
+#'
+#' @examples
+#'
+#' if (interactive()) {
+#'   run_qbr_demo()
+#' }
 #' @export
 run_qbr_demo <- function() {
   appDir <- system.file("app", package = "qbr")

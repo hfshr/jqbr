@@ -32,17 +32,30 @@ shinyApp(ui, server)
 
 ```
 
+By default the output it a string like
+
+```r
+"name == \"John\""
+```
+
+but other output options are available by using the `return_type` arguments inside the call to `queryBuilderInput`. Available options are:
+
+- `"r_rules"` (default)
+- `"rules"` (list - the raw output of queryBuilder)
+- `"sql_rules"` (Similar to r_rule but formatted for a SQL query)
+- `"all"` (Return all three types in a list)
+
 ## Update queryBuilder
 
-You can also use the `updateQueryBuilder` to perform a variety of actions on the builder. Current support actions include reset, destroy, update rules and insert rules.
+You can also use the `updateQueryBuilder` to perform a variety of actions on the builder. Current support actions include reset, destroy, update filters and insert filters. [See here](/references/updateQueryBuilder) for more information.
 
 ```r
   observe({
     updateQueryBuilder(
       inputId = "qb",
-      setFilters = new_rules
+      reset = TRUE
     )
   }) %>%
-    bindEvent(input$update)
+    bindEvent(input$reset)
 
 ```

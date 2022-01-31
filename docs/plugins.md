@@ -20,7 +20,7 @@ ui <- fluidPage(
                  id = "name",
                  title = "Name",
                  type = "string",
-                 description = "A name!"
+                 description = "A description!"
                  )
             )
         )

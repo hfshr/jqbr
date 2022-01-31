@@ -19,10 +19,6 @@ new Docute({
       title: "Guide",
       children: [
         {
-          title: "Getting Started",
-          link: "/getting-started",
-        },
-        {
           title: "Basic usage",
           link: "/basic-usage",
         },
@@ -37,14 +33,17 @@ new Docute({
       ],
     },
     {
-      title: "Updating",
-      link: "/updating",
-    },
-    {
       title: "Advanced",
       link: "/advanced",
     },
-    // An external link
+    {
+      title: "Reference",
+      children: [
+        { title: "Filter table", link: "/references/filter_table" },
+        { title: "queryBuilderInput", link: "/references/queryBuilderInput" },
+        { title: "updateQueryBuilder", link: "/references/updateQueryBuilder" },
+      ],
+    },
     {
       title: "GitHub",
       link: "https://github.com/hfshr/qbr",

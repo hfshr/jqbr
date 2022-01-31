@@ -1,15 +1,10 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# These functions are originally from ....
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 #' Apply query to a dataframe
 #'
-#' Filter a data frame using the output of a queryBuilder.
+#' Filter a dataframe using the output of a queryBuilder. The `return_value`
+#' Should be set to `r_rules`, and the list of filters should contain column names
+#' that are present in the data as their id value.
 #'
-#' @param data data frame to filter
-#'
+#' @param data `data.frame` to filter.
 #' @param filters output from queryBuilder when `return_value = "r_rules"`.
 #'
 #' @examples
@@ -17,13 +12,36 @@
 #' library(shiny)
 #' library(qbr)
 #'
-#' ui <- fluidPage()
+#' filters <- list(
+#'   list(
+#'     id = "cyl",
+#'     type = "integer",
+#'     input = "radio",
+#'     values = list(
+#'       4,
+#'       6,
+#'       8
+#'     )
+#'   )
+#' )
+#'
+#' ui <- fluidPage(
+#'   queryBuilderInput(
+#'     inputId = "r_filter",
+#'     filters = filters,
+#'     return_value = "r_rules"
+#'   ),
+#'   tableOutput("cars")
+#' )
 #'
 #' server <- function(input, output) {
+#'   output$cars <- renderTable({
+#'     filter_table(mtcars, input$r_filter)
+#'   })
 #' }
 #'
 #'
-#' if (interactive) {
+#' if (interactive()) {
 #'   shinyApp(ui, server)
 #' }
 #' @export
@@ -115,7 +133,10 @@ lookup <- function(id, operator, value) {
   }
   if (operator %in% names(op_4)) {
     if (operator == "between") {
-      return(paste0(id, " >= ", value[[1]], " & ", id, " <= ", value[[2]]))
+      return(paste0(
+        id, " >= ", value[[1]],
+        " & ", id, " <= ", value[[2]]
+      ))
     } else {
       return(paste0(
         "!(", id, " >= ", value[[1]],
@@ -128,9 +149,15 @@ lookup <- function(id, operator, value) {
   }
   if (operator %in% names(op_6)) {
     if (operator == "in") {
-      return(paste0(id, " %in% c(", paste(value, collapse = ", "), ")"))
+      return(paste0(
+        id, " %in% c(",
+        paste(value, collapse = ", "), ")"
+      ))
     } else {
-      return(paste0("!(", id, " %in% c(", paste(value, collapse = ", "), "))"))
+      return(paste0(
+        "!(", id, " %in% c(",
+        paste(value, collapse = ", "), "))"
+      ))
     }
   }
 }

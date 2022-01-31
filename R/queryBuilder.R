@@ -1,32 +1,87 @@
+#' useQueryBuilder
+#'
+#' Make a call to `useQueryBuilder` in your ui code to load the
+#' required dependencies for the queryBuilder and optionally specify the
+#' bootstrap version to use.
+#'
+#' @param bs_version The version of bootstrap to use with the builder.
+#' Possible values are "3", "4" or "5"
+#'
+#' @export
+useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
+  bs_version <- match.arg(bs_version)
+
+  query_builder_bs <- sprintf(
+    "query-builder-bs%s.standalone.min.js",
+    bs_version
+  )
+  query_builder_css <- sprintf(
+    "query-builder-bs%s.standalone.min.css",
+    bs_version
+  )
+
+
+  htmltools::htmlDependency(
+    name = "queryBuilderBinding",
+    version = "0.1.0",
+    src = c(file = system.file("packer", package = "qbr")),
+    script = c("queryBuilder.js", query_builder_bs),
+    stylesheet = query_builder_css
+  )
+}
+
+
 #' queryBuilderInput
 #'
-#' Shiny input for queryBuilder.
+#' Shiny input bindings for queryBuilder.
 #'
+#' @param inputId string. Input id for the builder.
+#' @param width Width of the builder. Default if "100%".
 #' @param filters list of list specifying the available filters in the builder.
 #' See example for a See https://querybuilder.js.org/#filters
 #' for details on the possible options
 #' @param rules Initial set of rules.
 #' By default the builder will contain one empty rule
 #' @param plugins list of optional plugins.
-#' @param display_errors bool. If `TRUE`, when an error occurs on a rule, display an icon with a tooltip
-#' explaining the error.
+#' @param display_errors boolean. If `TRUE`, when an error occurs on a rule,
+#' display an icon with a tooltip explaining the error.
 #' @param optgroups List of groups in the filters and operators dropdowns.
 #' @param default_filter string. The `id` of the default filter for any new rule.
-#' @param sort_filters boolean|function. Sort filters alphabetically, or with a custom JS function.
-#' @param allow_empty bool. If `TRUE`, no error will be thrown if the builder is entirely empty.
+#' @param sort_filters boolean|function. Sort filters alphabetically,
+#'  or with a custom JS function.
+#' @param allow_empty boolean. If `TRUE`, no error will be thrown if the builder
+#' is entirely empty.
 #' @param allow_groups boolean|int. Number of allowed nested groups.
 #' `TRUE` for no limit.
 #' @param conditions string. Array of available group conditions. Use the
 #' `lang` option to change the label.
+#' @param default_condition Default active condition. Default 'AND'.
+#' @param inputs_separator string used to separate multiple inputs (for between operator).
+#' default is ",".
+#' @param display_empty_filter boolean. Default `TRUE`. Add an empty option with `select_placeholder` string
+#' to the filter dropdowns. If the empty filter is disabled and no `default_filter`
+#' is defined, the first filter will be loaded when adding a rule.
 #' @param select_placeholder string. Label of the "no filter" option.
-#' @param lang Additional/overwrites translation strings.
+#' @param operators list of list specifying custom operators. See
+#' https://querybuilder.js.org/#operators for more information
+#' @param return_value string. On of `"r_rules"`, `"rules"`, `"sql_rules"`
+#' or `"all"`. Default "r_rules". Determines the return value from the builder
+#' accessed with input$<builder_id> in shiny server
 #'
 #' @examples
 #' library(shiny)
 #' library(qbr)
 #'
 #' ui <- fluidPage(
-#'   queryBuilderInput("qb")
+#'   queryBuilderInput(
+#'     inputId = "qb",
+#'     filters = list(
+#'       list(
+#'         id = "name",
+#'         type = "string"
+#'       )
+#'     )
+#'   )
 #' )
 #'
 #' server <- function(input, output) {
@@ -59,8 +114,7 @@ queryBuilderInput <- function(inputId,
                               display_empty_filter = TRUE,
                               select_placeholder = "------",
                               operators = NULL,
-                              return_value = c("r_rules", "rules", "sql", "all"),
-                              output_options = NULL) {
+                              return_value = c("r_rules", "rules", "sql", "all")) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
@@ -122,40 +176,51 @@ queryBuilderInput <- function(inputId,
 }
 
 
-useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
-  bs_version <- match.arg(bs_version)
-
-  query_builder_bs <- sprintf(
-    "query-builder-bs%s.standalone.min.js",
-    bs_version
-  )
-  query_builder_css <- sprintf(
-    "query-builder-bs%s.standalone.min.css",
-    bs_version
-  )
-
-
-  htmltools::htmlDependency(
-    name = "queryBuilderBinding",
-    version = "1.0.0",
-    src = c(file = system.file("packer", package = "qbr")),
-    script = c("queryBuilder.js", query_builder_bs),
-    stylesheet = query_builder_css
-  )
-}
-
-
-
 #' updateQueryBuilder
 #'
 #' Update a queryBuilder with available methods.
 #'
-#' @param inputId inputId of builder
-#' @param setFilters list of lists container new filters
-#' @param addFilters list of lists contaiing filters to add
-#' @param destroy bool. `TRUE` to destory filter
-#' @param reset bool. `TRUE` to reset filter
+#' @param inputId inputId of builder to update.
+#' @param setFilters list of lists container new filters.
+#' @param addFilters list of lists containing filters to add.
+#' @param setRules List of rules apply to the builder.
+#' @param destroy bool. `TRUE` to destory filter.
+#' @param reset bool. `TRUE` to reset filter.
+#' @param session The session object passed to function given
+#' to shinyServer. Default is getDefaultReactiveDomain().
 #'
+#' @importFrom shiny getDefaultReactiveDomain
+#'
+#' @examples
+#' library(shiny)
+#' library(qbr)
+#'
+#' # Button to reset the build an remove all rules
+#' ui <- fluidPage(
+#'   queryBuilderInput(
+#'     inputId = "qb",
+#'     filters = list(
+#'       list(
+#'         id = "name",
+#'         type = "string"
+#'       )
+#'     )
+#'   ),
+#'   actionButton("reset", "Reset")
+#' )
+#'
+#' server <- function(input, output) {
+#'   observeEvent(input$reset, {
+#'     updateQueryBuilder(
+#'       inputId = "qb",
+#'       reset = TRUE
+#'     )
+#'   })
+#' }
+#'
+#' if (interactive()) {
+#'   shinyApp(ui, server)
+#' }
 #' @export
 updateQueryBuilder <- function(inputId,
                                setFilters = NULL,
@@ -163,7 +228,7 @@ updateQueryBuilder <- function(inputId,
                                setRules = NULL,
                                destroy = FALSE,
                                reset = FALSE,
-                               session = getDefaultReactiveDomain()) {
+                               session = shiny::getDefaultReactiveDomain()) {
   message <- list(
     setFilters = setFilters,
     addFilters = addFilters,

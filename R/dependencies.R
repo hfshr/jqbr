@@ -1,4 +1,7 @@
-# Helper function to find plugins that require extra dependencies
+#' Find plugins
+#' Find plugins from list
+#' @param plugins list of plugins
+#' @noRd
 find_plugins <- function(plugins) {
     named_plugins <- names(plugins)
     if ("filter-description" %in% named_plugins) {
@@ -9,7 +12,9 @@ find_plugins <- function(plugins) {
     named_plugins
 }
 
-# Add required plugins
+#' Plugins
+#' @param plugins character vector of required plugins
+#' @noRd
 plugin_deps <- function(plugins) {
     all_deps <- htmltools::tagList()
 
@@ -81,7 +86,10 @@ plugin_deps <- function(plugins) {
     all_deps
 }
 
-# Add dependencies for any named widgets
+#' Widget deps
+#' Find widgets dependencies in list of filters
+#' @param filters list of filters
+#' @noRd
 widget_deps <- function(filters) {
     widget_dep_names <- unlist(
         drop_nulls(

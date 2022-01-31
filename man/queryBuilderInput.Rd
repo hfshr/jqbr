@@ -22,11 +22,14 @@ queryBuilderInput(
   display_empty_filter = TRUE,
   select_placeholder = "------",
   operators = NULL,
-  return_value = c("r_rules", "rules", "sql", "all"),
-  output_options = NULL
+  return_value = c("r_rules", "rules", "sql", "all")
 )
 }
 \arguments{
+\item{inputId}{string. Input id for the builder.}
+
+\item{width}{Width of the builder. Default if "100\%".}
+
 \item{filters}{list of list specifying the available filters in the builder.
 See example for a See https://querybuilder.js.org/#filters
 for details on the possible options}
@@ -40,32 +43,56 @@ By default the builder will contain one empty rule}
 
 \item{default_filter}{string. The \code{id} of the default filter for any new rule.}
 
-\item{sort_filters}{boolean|function. Sort filters alphabetically, or with a custom JS function.}
+\item{sort_filters}{boolean|function. Sort filters alphabetically,
+or with a custom JS function.}
 
 \item{allow_groups}{boolean|int. Number of allowed nested groups.
 \code{TRUE} for no limit.}
 
-\item{allow_empty}{bool. If \code{TRUE}, no error will be thrown if the builder is entirely empty.}
+\item{allow_empty}{boolean. If \code{TRUE}, no error will be thrown if the builder
+is entirely empty.}
 
-\item{display_errors}{bool. If \code{TRUE}, when an error occurs on a rule, display an icon with a tooltip
-explaining the error.}
+\item{display_errors}{boolean. If \code{TRUE}, when an error occurs on a rule,
+display an icon with a tooltip explaining the error.}
 
 \item{conditions}{string. Array of available group conditions. Use the
 \code{lang} option to change the label.}
 
+\item{default_condition}{Default active condition. Default 'AND'.}
+
+\item{inputs_separator}{string used to separate multiple inputs (for between operator).
+default is ",".}
+
+\item{display_empty_filter}{boolean. Default \code{TRUE}. Add an empty option with \code{select_placeholder} string
+to the filter dropdowns. If the empty filter is disabled and no \code{default_filter}
+is defined, the first filter will be loaded when adding a rule.}
+
 \item{select_placeholder}{string. Label of the "no filter" option.}
 
-\item{lang}{Additional/overwrites translation strings.}
+\item{operators}{list of list specifying custom operators. See
+https://querybuilder.js.org/#operators for more information}
+
+\item{return_value}{string. On of \code{"r_rules"}, \code{"rules"}, \code{"sql_rules"}
+or \code{"all"}. Default "r_rules". Determines the return value from the builder
+accessed with input$<builder_id> in shiny server}
 }
 \description{
-Shiny input for queryBuilder.
+Shiny input bindings for queryBuilder.
 }
 \examples{
 library(shiny)
 library(qbr)
 
 ui <- fluidPage(
-  queryBuilderInput("qb")
+  queryBuilderInput(
+    inputId = "qb",
+    filters = list(
+      list(
+        id = "name",
+        type = "string"
+      )
+    )
+  )
 )
 
 server <- function(input, output) {

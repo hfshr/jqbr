@@ -11,20 +11,56 @@ updateQueryBuilder(
   setRules = NULL,
   destroy = FALSE,
   reset = FALSE,
-  session = getDefaultReactiveDomain()
+  session = shiny::getDefaultReactiveDomain()
 )
 }
 \arguments{
-\item{inputId}{inputId of builder}
+\item{inputId}{inputId of builder to update.}
 
-\item{setFilters}{list of lists container new filters}
+\item{setFilters}{list of lists container new filters.}
 
-\item{addFilters}{list of lists contaiing filters to add}
+\item{addFilters}{list of lists containing filters to add.}
 
-\item{destroy}{bool. \code{TRUE} to destory filter}
+\item{setRules}{List of rules apply to the builder.}
 
-\item{reset}{bool. \code{TRUE} to reset filter}
+\item{destroy}{bool. \code{TRUE} to destory filter.}
+
+\item{reset}{bool. \code{TRUE} to reset filter.}
+
+\item{session}{The session object passed to function given
+to shinyServer. Default is getDefaultReactiveDomain().}
 }
 \description{
 Update a queryBuilder with available methods.
+}
+\examples{
+library(shiny)
+library(qbr)
+
+# Button to reset the build an remove all rules
+ui <- fluidPage(
+  queryBuilderInput(
+    inputId = "qb",
+    filters = list(
+      list(
+        id = "name",
+        type = "string"
+      )
+    )
+  ),
+  actionButton("reset", "Reset")
+)
+
+server <- function(input, output) {
+  observeEvent(input$reset, {
+    updateQueryBuilder(
+      inputId = "qb",
+      reset = TRUE
+    )
+  })
+}
+
+if (interactive()) {
+  shinyApp(ui, server)
+}
 }

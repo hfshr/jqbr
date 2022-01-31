@@ -2,7 +2,7 @@
 
 It is possible to use custom javascript function to further enhance the builder.
 
-Custom description when "in" or "not in" operator is used.
+For example, this example uses a custom description when "in" or "not in" operators are used.
 
 ```r
 
@@ -18,10 +18,24 @@ filters <- list(
   )
 )
 
-plugins <- list(
-  "filter-description" = list("mode" = "inline")
+ui <- fluidPage(
+    useQueryBuilder(),
+    queryBuilderInput(
+        inputId = "qb",
+        plugins = list(
+          "filter-description" = list("mode" = "inline")
+          ),
+        filters = filters
+        )
+    )
 )
 
+server <- function(input, output){
+    observe({
+        print(input$qb)
+    })
+}
 
+shinyApp(ui, server)
 
 ```

@@ -7,12 +7,50 @@
 filter_table(data = NULL, filters = NULL)
 }
 \arguments{
-\item{data}{data frame to filter}
+\item{data}{\code{data.frame} to filter.}
 
-\item{filters}{output from queryBuilder sent from
-shiny app as \code{input$el_out}
-where \code{el} is the htmlWidget element}
+\item{filters}{output from queryBuilder when \code{return_value = "r_rules"}.}
 }
 \description{
-Filter a data frame using the output of a queryBuilder.
+Filter a dataframe using the output of a queryBuilder. The \code{return_value}
+Should be set to \code{r_rules}, and the list of filters should contain column names
+that are present in the data as their id value.
+}
+\examples{
+
+library(shiny)
+library(qbr)
+
+filters <- list(
+  list(
+    id = "cyl",
+    type = "integer",
+    input = "radio",
+    values = list(
+      4,
+      6,
+      8
+    )
+  )
+)
+
+ui <- fluidPage(
+  queryBuilderInput(
+    inputId = "r_filter",
+    filters = filters,
+    return_value = "r_rules"
+  ),
+  tableOutput("cars")
+)
+
+server <- function(input, output) {
+  output$cars <- renderTable({
+    filter_table(mtcars, input$r_filter)
+  })
+}
+
+
+if (interactive()) {
+  shinyApp(ui, server)
+}
 }
