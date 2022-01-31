@@ -3,8 +3,6 @@
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
 [![R-CMD-check](https://github.com/hfshr/qbr/workflows/R-CMD-check/badge.svg)](https://github.com/hfshr/qbr/actions)
 
-<!-- badges: end -->
-
 Shiny input bindings for [jQuery queryBuilder](https://querybuilder.js.org/index.html)
 
 # Installation
@@ -16,6 +14,14 @@ pak::pak("hfshr/qbr")
 
 ## See it in action
 
-The best way to see what this input can do if to checkout the demo app on shinyapps.io here.
+The best way to see what this input can do if to checkout the demo app on shinyapps.io [here](https://harryfish.shinyapps.io/qbr_demo).
 
-Or if you have installed the package, you can run `qbr::run_qbr_demo()` to launch the app locally
+Or if you have installed the package, you can run `qbr::run_qbr_demo()` to launch the app locally.
+
+# Credits
+
+[jQuery QueryBuilder](https://querybuilder.js.org/)
+
+[packer](https://github.com/JohnCoene/packer) by John Cohen
+
+[queryBuilder](https://github.com/harveyl888/queryBuilder) R widget by harveyl888
