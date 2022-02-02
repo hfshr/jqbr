@@ -2,11 +2,9 @@
 
 run_qbr_demo
 
-
 ## Description
 
 Run the qbr demo app
-
 
 ## Usage
 
@@ -14,13 +12,10 @@ Run the qbr demo app
 run_qbr_demo()
 ```
 
-
 ## Examples
 
 ```r
 if (interactive()) {
-run_qbr_demo()
+    run_qbr_demo()
 }
 ```
-
-
