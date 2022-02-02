@@ -1,3 +1,5 @@
 .Rproj.user
 node_modules
 .Rhistory
+inst/app/rsconnect
+inst/examples
