@@ -23,6 +23,10 @@ new Docute({
           link: "/basic-usage",
         },
         {
+          title: "Filter definition",
+          link: "/filters",
+        },
+        {
           title: "Plugins",
           link: "/plugins",
         },
@@ -30,18 +34,20 @@ new Docute({
           title: "Widgets",
           link: "/widgets",
         },
+        {
+          title: "Advanced",
+          link: "/advanced",
+        },
       ],
-    },
-    {
-      title: "Advanced",
-      link: "/advanced",
     },
     {
       title: "Reference",
       children: [
         { title: "Filter table", link: "/references/filter_table" },
         { title: "queryBuilderInput", link: "/references/queryBuilderInput" },
+        { title: "Run qbr demo", link: "/references/run_qbr_demo" },
         { title: "updateQueryBuilder", link: "/references/updateQueryBuilder" },
+        { title: "useQueryBuilder", link: "/references/useQueryBuilder" },
       ],
     },
     {

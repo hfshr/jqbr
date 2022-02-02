@@ -70,26 +70,32 @@ advanced_builder_ui <- function(id) {
   tagList(
     fluidRow(
       column(
+        width = 12,
+        h2("Advanced"),
+        p(
+          "qbr supports javascript functions to define custom inputs.",
+          "Just pass the js function as a string and qbr will handle the rest!",
+          "Based on the example ", tags$a(
+            href = "https://querybuilder.js.org/demo.html#widgets",
+            "here."
+          )
+        )
+      )
+    ),
+    fluidRow(
+      column(
         width = 6,
-        h2("Builder"),
+        h4("Builder"),
         queryBuilderInput(
           inputId = ns("advanced"),
           filters = advanced_filters,
           rules = rules_advanced,
           return_value = "all"
-        ),
-        # actionButton(
-        #   ns("code"),
-        #   "Show code"
-        # )
-        p(
-          "qbr supports javascript functions to define custom inputs.",
-          "Just pass the js function as a string and qbr will handle the rest!"
         )
       ),
       column(
         width = 6,
-        h2("Output"),
+        h4("Output"),
         rule_output_ui(ns("plugin_output"))
       )
     )
@@ -100,32 +106,5 @@ advanced_builder_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     rule_output <- reactive(input$advanced)
     rule_output_server("plugin_output", rule_output)
-    ns <- session$ns
-
-    #   modal <- function() {
-    #     showModal(
-    #       modalDialog(
-    #         title = "Custom input",
-    #         div(
-    #           style = "overflow-y:scroll; height:400px;",
-    #           verbatimTextOutput(ns("code_ex"))
-    #         )
-    #       )
-    #     )
-    #   }
-
-    #   output$code_ex <- renderPrint({
-    #     HTML(
-    #       jsonlite::prettify(jsonlite::toJSON(advanced_filters,
-    #         auto_unbox = TRUE
-    #       ))
-    #     )
-    #   })
-
-    #   observe({
-    #     modal()
-    #   }) |>
-    #     bindEvent(input$code)
-    # })
   })
 }

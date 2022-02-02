@@ -23,7 +23,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 
   htmltools::htmlDependency(
     name = "queryBuilderBinding",
-    version = "0.1.0",
+    version = "1.0.0",
     src = c(file = system.file("packer", package = "qbr")),
     script = c("queryBuilder.js", query_builder_bs),
     stylesheet = query_builder_css
@@ -38,8 +38,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @param inputId string. Input id for the builder.
 #' @param width Width of the builder. Default if "100%".
 #' @param filters list of list specifying the available filters in the builder.
-#' See example for a See https://querybuilder.js.org/#filters
-#' for details on the possible options
+#' See example for a See https://querybuilder.js.org/#filters for details on the possible options
 #' @param rules Initial set of rules.
 #' By default the builder will contain one empty rule
 #' @param plugins list of optional plugins.
@@ -47,11 +46,11 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' display an icon with a tooltip explaining the error.
 #' @param optgroups List of groups in the filters and operators dropdowns.
 #' @param default_filter string. The `id` of the default filter for any new rule.
-#' @param sort_filters boolean|function. Sort filters alphabetically,
+#' @param sort_filters boolean \| string. Sort filters alphabetically,
 #'  or with a custom JS function.
 #' @param allow_empty boolean. If `TRUE`, no error will be thrown if the builder
 #' is entirely empty.
-#' @param allow_groups boolean|int. Number of allowed nested groups.
+#' @param allow_groups boolean \| integer. Number of allowed nested groups.
 #' `TRUE` for no limit.
 #' @param conditions string. Array of available group conditions. Use the
 #' `lang` option to change the label.
@@ -182,7 +181,10 @@ queryBuilderInput <- function(inputId,
 #'
 #' @param inputId inputId of builder to update.
 #' @param setFilters list of lists container new filters.
-#' @param addFilters list of lists containing filters to add.
+#' @param addFilter Named list containing `filter` and `position` elements.
+#' `filter` should be a list contianing a list which has the new filter to add.
+#' `position` can be a string of either "start" or "end" or a integer specifying the position
+#' to insert the rule. If position if ommited, filter will be inserted at the end.
 #' @param setRules List of rules apply to the builder.
 #' @param destroy bool. `TRUE` to destory filter.
 #' @param reset bool. `TRUE` to reset filter.
@@ -224,14 +226,14 @@ queryBuilderInput <- function(inputId,
 #' @export
 updateQueryBuilder <- function(inputId,
                                setFilters = NULL,
-                               addFilters = NULL,
+                               addFilter = NULL,
                                setRules = NULL,
                                destroy = FALSE,
                                reset = FALSE,
                                session = shiny::getDefaultReactiveDomain()) {
   message <- list(
     setFilters = setFilters,
-    addFilters = addFilters,
+    addFilter = addFilter,
     setRules = setRules,
     destroy = destroy,
     reset = reset

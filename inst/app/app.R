@@ -3,10 +3,10 @@ library(qbr)
 library(bslib)
 
 
-options(
-    shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE),
-    shiny.port = httpuv::randomPort()
-)
+# options(
+#     shiny.launch.browser = function(...) .vsc.browser(..., viewer = FALSE),
+#     shiny.port = httpuv::randomPort()
+# )
 
 invisible(
     lapply(
@@ -20,7 +20,7 @@ ui <- fluidPage(
     useQueryBuilder(bs_version = "5"),
     fluidRow(
         column(
-            width = 6,
+            width = 12,
             h1("QueryBuilder demo"),
             p(
                 "This app demonstrates some of the examples from",
@@ -28,7 +28,21 @@ ui <- fluidPage(
                     href = "https://querybuilder.js.org/index.html",
                     "https://querybuilder.js.org/index.html"
                 ),
-                "implemented as R shiny inputs"
+                "implemented as R shiny inputs in the {qbr} package",
+            ),
+            p(
+                "Github repo: ",
+                tags$a(
+                    href = "https://github.com/hfshr/qbr",
+                    "https://github.com/hfshr/qbr"
+                ),
+            ),
+            p(
+                "Documentation: ",
+                tags$a(
+                    href = "https://hfshr.github.io/qbr",
+                    "https://hfshr.github.io/qbr"
+                )
             )
         )
     ),

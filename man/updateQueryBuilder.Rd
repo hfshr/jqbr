@@ -7,7 +7,7 @@
 updateQueryBuilder(
   inputId,
   setFilters = NULL,
-  addFilters = NULL,
+  addFilter = NULL,
   setRules = NULL,
   destroy = FALSE,
   reset = FALSE,
@@ -19,7 +19,10 @@ updateQueryBuilder(
 
 \item{setFilters}{list of lists container new filters.}
 
-\item{addFilters}{list of lists containing filters to add.}
+\item{addFilter}{Named list containing \code{filter} and \code{position} elements.
+\code{filter} should be a list contianing a list which has the new filter to add.
+\code{position} can be a string of either "start" or "end" or a integer specifying the position
+to insert the rule. If position if ommited, filter will be inserted at the end.}
 
 \item{setRules}{List of rules apply to the builder.}
 

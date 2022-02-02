@@ -1,6 +1,6 @@
 Package: qbr
 Title: R interface to jQuery-QueryBuilder
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: 
     person("Harry", "Fisher", , 
     "harryfisher21@gmail.com", 

@@ -14,11 +14,11 @@ Update a queryBuilder with available methods.
 updateQueryBuilder(
   inputId,
   setFilters = NULL,
-  addFilters = NULL,
+  addFilter = NULL,
   setRules = NULL,
   destroy = FALSE,
   reset = FALSE,
-  session = getDefaultReactiveDomain()
+  session = shiny::getDefaultReactiveDomain()
 )
 ```
 
@@ -29,10 +29,11 @@ Argument      |Description
 ------------- |----------------
 `inputId`     |     inputId of builder to update.
 `setFilters`     |     list of lists container new filters.
-`addFilters`     |     list of lists containing filters to add.
+`addFilter`     |     Named list containing `filter` and `position` elements. `filter` should be a list contianing a list which has the new filter to add. `position` can be a string of either "start" or "end" or a integer specifying the position to insert the rule. If position if ommited, filter will be inserted at the end.
 `setRules`     |     List of rules apply to the builder.
 `destroy`     |     bool. `TRUE` to destory filter.
 `reset`     |     bool. `TRUE` to reset filter.
+`session`     |     The session object passed to function given to shinyServer. Default is getDefaultReactiveDomain().
 
 
 ## Examples

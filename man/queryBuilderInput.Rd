@@ -31,8 +31,7 @@ queryBuilderInput(
 \item{width}{Width of the builder. Default if "100\%".}
 
 \item{filters}{list of list specifying the available filters in the builder.
-See example for a See https://querybuilder.js.org/#filters
-for details on the possible options}
+See example for a See https://querybuilder.js.org/#filters for details on the possible options}
 
 \item{plugins}{list of optional plugins.}
 
@@ -43,10 +42,10 @@ By default the builder will contain one empty rule}
 
 \item{default_filter}{string. The \code{id} of the default filter for any new rule.}
 
-\item{sort_filters}{boolean|function. Sort filters alphabetically,
+\item{sort_filters}{boolean \| string. Sort filters alphabetically,
 or with a custom JS function.}
 
-\item{allow_groups}{boolean|int. Number of allowed nested groups.
+\item{allow_groups}{boolean \| integer. Number of allowed nested groups.
 \code{TRUE} for no limit.}
 
 \item{allow_empty}{boolean. If \code{TRUE}, no error will be thrown if the builder

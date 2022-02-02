@@ -2,7 +2,7 @@
 
 There are also three widgets that can be included, see them in action [here](https://querybuilder.js.org/demo.html#widgets). These are similar to plugins, but need to be specified in the filter as opposed to the plugin list.
 
-The possible options for the plugin value in each filter are one of "slider", "datepicker" or "selectize". For example, to include the slider widget you could include the following in your list of filters.
+The possible options for the plugin value in each filter are one of `"slider"`, `"datepicker"` or `"selectize"`. For example, to include the slider widget you could include the following in your list of filters.
 
 ```r
 

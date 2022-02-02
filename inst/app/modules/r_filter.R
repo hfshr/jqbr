@@ -5,16 +5,39 @@ r_filters <- list(
     list(
         id = "mpg",
         title = "MPG",
-        type = "double"
+        type = "double",
+        plugin = "slider",
+        operators = c("greater", "less", "between"),
+        plugin_config = list(
+            min = min(mtcars$mpg) - 1,
+            max = max(mtcars$mpg) + 1,
+            value = 20
+        )
     ),
     list(
         id = "cyl",
         type = "integer",
-        input = "radio",
+        input = "checkbox",
         values = list(
             4,
             6,
             8
+        ),
+        operators = c("equal", "not_equal", "in")
+    )
+)
+
+rules_r <- list(
+    condition = "AND",
+    rules = list(
+        list(
+            id = "mpg",
+            operator = "greater",
+            value = 20
+        ), list(
+            id = "cyl",
+            operator = "in",
+            value = 4
         )
     )
 )
@@ -40,7 +63,9 @@ r_builder_ui <- function(id) {
                 queryBuilderInput(
                     inputId = ns("r_filter"),
                     filters = r_filters,
-                    return_value = "r_rules"
+                    return_value = "r_rules",
+                    display_errors = TRUE,
+                    rules = rules_r
                 ),
             ),
             column(

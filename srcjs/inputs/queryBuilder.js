@@ -58,10 +58,26 @@ $.extend(queryBuilderBinding, {
     return { rules: rules, sql_rules: sql_rules };
   },
   setValue: (el, value) => {
+    // console.log(
+    //   value.setFilters,
+    //   value.setRules,
+    //   value.addFilter,
+    //   value.destory,
+    //   value.reset
+    // );
     // Remove all filters and replace with new ones
-    console.log(value.setFilters, value.setRules, value.destory, value.reset);
     if (value.setFilters != null) {
       $("#" + el.id).queryBuilder("setFilters", true, value.setFilters);
+    }
+    if (value.addFilter != null) {
+      if (value.addFilter.position == null) {
+        value.addFilter.position = "end";
+      }
+      $("#" + el.id).queryBuilder(
+        "addFilter",
+        value.addFilter.filter,
+        value.addFilter.position
+      );
     }
     // Update queryBuilder with a set of rules
     if (value.setRules != null) {

@@ -1,6 +1,6 @@
 # Basic usage
 
-To use `qbr`, include `useQueryBuilder` in your UI, and then use `queryBuilderInput` to initiate the builder. Only the `inputId` and list of `filters` are required.
+To use `qbr`, include `useQueryBuilder` in your UI, and then use `queryBuilderInput` to initiate the builder. Only the `inputId` and list of `filters` are required. For more information about what the list of filters should look like see [filters](/filters).
 
 ```r
 
@@ -44,6 +44,20 @@ but other output options are available by using the `return_type` arguments insi
 - `"rules"` (list - the raw output of queryBuilder)
 - `"sql_rules"` (Similar to r_rule but formatted for a SQL query)
 - `"all"` (Return all three types in a list)
+
+## Validate input
+
+There is an additional input value which can be accessed with input$inputId_valid. This will return `TRUE` if the rules in the builder are valid, otherwise it will be `FALSE`. This can be useful when used with an obeserver.
+
+```r
+observe({
+  req(input$qb_valid)
+  print(input$qb)
+})
+
+```
+
+The builder output will only be printed when the rules are valid.
 
 ## Update queryBuilder
 

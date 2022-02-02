@@ -5,7 +5,7 @@
 
 Shiny input bindings for [jQuery queryBuilder](https://querybuilder.js.org/index.html)
 
-# Installation
+## Installation
 
 ```r
 # install.packages("pak")
@@ -18,7 +18,7 @@ The best way to see what this input can do if to checkout the demo app on shinya
 
 Or if you have installed the package, you can run `qbr::run_qbr_demo()` to launch the app locally
 
-# Credits
+## Credits
 
 [jQuery QueryBuilder](https://querybuilder.js.org/)
 

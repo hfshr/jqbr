@@ -18,7 +18,7 @@ run_qbr_demo()
 ## Examples
 
 ```r
-if (interactive) {
+if (interactive()) {
 run_qbr_demo()
 }
 ```

@@ -60,7 +60,7 @@ filter_table(mtcars, input$r_filter)
 }
 
 
-if (interactive) {
+if (interactive()) {
 shinyApp(ui, server)
 }
 ```

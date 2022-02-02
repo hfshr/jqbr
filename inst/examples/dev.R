@@ -9,7 +9,7 @@ description <-
 #         return 'The description for ' + (rule.operator ? rule.operator.type : 'anything');}"
 
 # class(description) <- "json"
-mtcars
+
 filters <- list(
   list(
     id = "name",
@@ -200,7 +200,7 @@ ui <- fluidPage(
       width = 6,
       queryBuilderInput("qb",
         filters = filters,
-        rules = rules,
+        # rules = rules,
         plugins = plugins,
         return_value = "r_rules",
         display_errors = TRUE
@@ -232,13 +232,15 @@ server <- function(input, output, session) {
     )
   )
 
-  # observe({
-  #   updateQueryBuilder(
-  #     inputId = "qb",
-  #     setFilters = new_rules
-  #   )
-  # }) |>
-  #   bindEvent(input$update)
+  observe({
+    updateQueryBuilder(
+      inputId = "qb",
+      addFilter = list(
+        filter = new_rules
+      )
+    )
+  }) |>
+    bindEvent(input$update)
 
   output$table <- renderTable({
     req(input$qb_valid)
@@ -258,4 +260,7 @@ server <- function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 
-
+# rsconnect::deployApp(
+#   appDir = "./inst/app",
+#   appName = "qbr_demo"
+# )
