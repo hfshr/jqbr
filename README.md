@@ -16,7 +16,7 @@ pak::pak("hfshr/qbr")
 ```
 ## See it in action
 
-The best way to see what this input can do if to checkout the demo app on shinyapps.io [here](https://harryfish.shinyapps.io/qbr_demo).
+The best way to see what this input can do is to checkout the demo Shiny app on shinyapps.io [here](https://harryfish.shinyapps.io/qbr_demo).
 
 Or if you have installed the package, you can run `qbr::run_qbr_demo()` to launch the app locally.
 
