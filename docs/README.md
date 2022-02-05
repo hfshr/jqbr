@@ -1,6 +1,8 @@
-# qbr
+qbr <img src='_media/hex-qbr.png' align="right" height="160" />
+==================================
 
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 [![R-CMD-check](https://github.com/hfshr/qbr/workflows/R-CMD-check/badge.svg)](https://github.com/hfshr/qbr/actions)
 
 Shiny input bindings for [jQuery queryBuilder](https://querybuilder.js.org/index.html).
