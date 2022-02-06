@@ -1,4 +1,4 @@
-qbr <img src='_assets/img/hex-qbr.png' align="right" height="160" />
+qbr <img src='assets/img/hex-qbr.png' align="right" height="160" />
 ==================================
 
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
