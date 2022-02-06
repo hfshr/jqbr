@@ -22,8 +22,8 @@ Or if you have installed the package, you can run `qbr::run_qbr_demo()` to launc
 
 ## Credits
 
-[jQuery QueryBuilder](https://querybuilder.js.org/)
+[jQuery QueryBuilder](https://querybuilder.js.org/) by [\@mistic100](https://github.com/mistic100)
 
-[packer](https://github.com/JohnCoene/packer) by John Cohen
+[packer](https://github.com/JohnCoene/packer) by [\@JohnCoene](https://github.com/JohnCoene)
 
-[queryBuilder](https://github.com/harveyl888/queryBuilder) R widget by harveyl888
+[queryBuilder](https://github.com/harveyl888/queryBuilder) R widget by [\@harveyl888](https://github.com/harveyl888)
