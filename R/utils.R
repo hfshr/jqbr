@@ -10,7 +10,6 @@ drop_nulls <- function(x) {
 #' @param filters List of filters to check
 #'
 #'
-#'
 #' @noRd
 validate_filters <- function(filters) {
   if (!is.list(filters)) {

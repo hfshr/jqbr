@@ -1,3 +1,7 @@
+# qbr 1.0.1
+
+- Remove base R pipe operators from `run_qbr_demo()`.
+
 # qbr 1.0.0
 
 **Breaking changes**
