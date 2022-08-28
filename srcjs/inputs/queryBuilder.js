@@ -46,25 +46,22 @@ $.extend(queryBuilderBinding, {
     $("#" + el.id).queryBuilder(parsedOptions);
   },
   getValue: (el) => {
+    let return_type = $(el).attr("data-return");
+
     var rules = $("#" + el.id).queryBuilder("getRules");
-    var sql_rules = $("#" + el.id).queryBuilder("getSQL");
     var valid = $("#" + el.id).queryBuilder("validate");
 
-    // Shiny.setInputValue(el.id + "_rules", rules);
-    // Shiny.setInputValue(el.id + "_sql", sql_rules);
     Shiny.setInputValue(el.id + "_valid", valid);
-    // Shiny.setInputValue(el.id + "_r_rules:qbr.r_rules", rules);
 
-    return { rules: rules, sql_rules: sql_rules };
+    if (return_type === "r_rules" || return_type === "rules") {
+      return { rules: rules };
+    } else if (return_type === "sql_rules" || return_type === "all") {
+      var sql_rules = $("#" + el.id).queryBuilder("getSQL");
+
+      return { rules: rules, sql_rules: sql_rules };
+    }
   },
   setValue: (el, value) => {
-    // console.log(
-    //   value.setFilters,
-    //   value.setRules,
-    //   value.addFilter,
-    //   value.destory,
-    //   value.reset
-    // );
     // Remove all filters and replace with new ones
     if (value.setFilters != null) {
       $("#" + el.id).queryBuilder("setFilters", true, value.setFilters);
@@ -115,7 +112,6 @@ $.extend(queryBuilderBinding, {
     $(el).off(".queryBuilderBinding");
   },
   receiveMessage: function (el, data) {
-    // console.log(data);
     this.setValue(el, data);
     // other parameters to update...
   },

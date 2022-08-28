@@ -61,19 +61,46 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' to the filter dropdowns. If the empty filter is disabled and no `default_filter`
 #' is defined, the first filter will be loaded when adding a rule.
 #' @param select_placeholder string. Label of the "no filter" option.
-#' @param operators list of list specifying custom operators. See
-#' https://querybuilder.js.org/#operators for more information
+#' @param operators NULL or list. If a list, format should follow that described
+#' here: https://querybuilder.js.org/#operators
 #' @param return_value string. On of `"r_rules"`, `"rules"`, `"sql_rules"`
 #' or `"all"`. Default "r_rules". Determines the return value from the builder
 #' accessed with input$<builder_id> in shiny server
+#' @param add_na_filter bool. Default is FALSE .If `TRUE`, `"is_na"` and `"is_not_na"`
+#'  are added to the global filter list for testing for NA values. Only works when
+#' `return_type` is "rules" or "r_rules".
 #'
 #' @examples
 #' library(shiny)
 #' library(qbr)
 #'
 #' ui <- fluidPage(
+#'   useQueryBuilder(),
 #'   queryBuilderInput(
 #'     inputId = "qb",
+#'     filters = list(
+#'       list(
+#'         id = "name",
+#'         type = "string"
+#'       )
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   observeEvent(input$qb, {
+#'     print(input$qb)
+#'   })
+#' }
+#'
+#' # Add is_na filter
+#'
+#' ui <- fluidPage(
+#'   useQueryBuilder(),
+#'   queryBuilderInput(
+#'     inputId = "qb",
+#'     add_na_filter = TRUE,
+#'     return_value = "r_rules",
 #'     filters = list(
 #'       list(
 #'         id = "name",
@@ -92,33 +119,56 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' if (interactive()) {
 #'   shinyApp(ui, server)
 #' }
+#'
 #' @importFrom htmltools tags tagList
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-queryBuilderInput <- function(inputId,
-                              width = "100%",
-                              filters,
-                              plugins = NULL,
-                              rules = NULL,
-                              optgroups = NULL,
-                              default_filter = NULL,
-                              sort_filters = FALSE,
-                              allow_groups = TRUE,
-                              allow_empty = FALSE,
-                              display_errors = FALSE,
-                              conditions = c("AND", "OR"),
-                              default_condition = "AND",
-                              inputs_separator = ",",
-                              display_empty_filter = TRUE,
-                              select_placeholder = "------",
-                              operators = NULL,
-                              return_value = c("r_rules", "rules", "sql", "all")) {
+queryBuilderInput <- function(
+  inputId,
+  width = "100%",
+  filters,
+  plugins = NULL,
+  rules = NULL,
+  optgroups = NULL,
+  default_filter = NULL,
+  sort_filters = FALSE,
+  allow_groups = TRUE,
+  allow_empty = FALSE,
+  display_errors = FALSE,
+  conditions = c("AND", "OR"),
+  default_condition = "AND",
+  inputs_separator = ",",
+  display_empty_filter = TRUE,
+  select_placeholder = "------",
+  operators = NULL,
+  add_na_filter = FALSE,
+  return_value = c("r_rules", "rules", "sql", "all")
+) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
   validate_filters(filters)
   validate_plugins(plugins)
+
+  if (!is.null(operators) && typeof(operators) != "list") {
+    stop(
+      "`operator` value must be a list or NULL.",
+      call. = FALSE
+    )
+  }
+
+  if (add_na_filter && return_value %in% c("all", "sql")) {
+    stop(
+      "Operators must not include `is_na` or `is_not_na`
+      when using return_type \"all\" or \"sql\"",
+      call. = FALSE
+    )
+  }
+
+  if (is.null(operators)) {
+    operators <- operator_list(add_na_filter = add_na_filter)
+  }
 
   options <- list(
     filters = filters,
@@ -135,6 +185,12 @@ queryBuilderInput <- function(inputId,
     inputs_separator = inputs_separator,
     display_empty_filter = display_empty_filter,
     select_placeholder = select_placeholder,
+    lang = list(
+      operators = list(
+        "is_na" = "is NA",
+        "is_not_na" = "is not NA"
+      )
+    ),
     operators = operators
   )
 
@@ -142,7 +198,9 @@ queryBuilderInput <- function(inputId,
 
   return_value <- match.arg(return_value)
 
+
   options <- drop_nulls(options)
+
 
   options <- jsonlite::toJSON(
     options,
@@ -199,6 +257,7 @@ queryBuilderInput <- function(inputId,
 #'
 #' # Button to reset the build an remove all rules
 #' ui <- fluidPage(
+#'   useQueryBuilder(),
 #'   queryBuilderInput(
 #'     inputId = "qb",
 #'     filters = list(
@@ -224,13 +283,15 @@ queryBuilderInput <- function(inputId,
 #'   shinyApp(ui, server)
 #' }
 #' @export
-updateQueryBuilder <- function(inputId,
-                               setFilters = NULL,
-                               addFilter = NULL,
-                               setRules = NULL,
-                               destroy = FALSE,
-                               reset = FALSE,
-                               session = shiny::getDefaultReactiveDomain()) {
+updateQueryBuilder <- function(
+  inputId,
+  setFilters = NULL,
+  addFilter = NULL,
+  setRules = NULL,
+  destroy = FALSE,
+  reset = FALSE,
+  session = shiny::getDefaultReactiveDomain()
+) {
   message <- list(
     setFilters = setFilters,
     addFilter = addFilter,

@@ -22,6 +22,7 @@ queryBuilderInput(
   display_empty_filter = TRUE,
   select_placeholder = "------",
   operators = NULL,
+  add_na_filter = FALSE,
   return_value = c("r_rules", "rules", "sql", "all")
 )
 }
@@ -68,8 +69,12 @@ is defined, the first filter will be loaded when adding a rule.}
 
 \item{select_placeholder}{string. Label of the "no filter" option.}
 
-\item{operators}{list of list specifying custom operators. See
-https://querybuilder.js.org/#operators for more information}
+\item{operators}{NULL or list. If a list, format should follow that described
+here: https://querybuilder.js.org/#operators}
+
+\item{add_na_filter}{bool. Default is FALSE .If \code{TRUE}, \code{"is_na"} and \code{"is_not_na"}
+are added to the global filter list for testing for NA values. Only works when
+\code{return_type} is "rules" or "r_rules".}
 
 \item{return_value}{string. On of \code{"r_rules"}, \code{"rules"}, \code{"sql_rules"}
 or \code{"all"}. Default "r_rules". Determines the return value from the builder
@@ -83,8 +88,32 @@ library(shiny)
 library(qbr)
 
 ui <- fluidPage(
+  useQueryBuilder(),
   queryBuilderInput(
     inputId = "qb",
+    filters = list(
+      list(
+        id = "name",
+        type = "string"
+      )
+    )
+  )
+)
+
+server <- function(input, output) {
+  observeEvent(input$qb, {
+    print(input$qb)
+  })
+}
+
+# Add is_na filter
+
+ui <- fluidPage(
+  useQueryBuilder(),
+  queryBuilderInput(
+    inputId = "qb",
+    add_na_filter = TRUE,
+    return_value = "r_rules",
     filters = list(
       list(
         id = "name",
@@ -103,4 +132,5 @@ server <- function(input, output) {
 if (interactive()) {
   shinyApp(ui, server)
 }
+
 }

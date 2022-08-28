@@ -198,7 +198,8 @@ ui <- fluidPage(
   fluidRow(
     column(
       width = 6,
-      queryBuilderInput("qb",
+      queryBuilderInput(
+        "qb",
         filters = filters,
         # rules = rules,
         plugins = plugins,
@@ -264,3 +265,26 @@ shinyApp(ui = ui, server = server)
 #   appDir = "./inst/app",
 #   appName = "qbr_demo"
 # )
+
+
+
+library(shiny)
+
+ui <- fluidPage(
+  useQueryBuilder(bs_version = "5"),
+  queryBuilderInput(
+    inputId = "basic",
+    filters = filters,
+    rules = rules_basic,
+    return_value = "r_rules"
+  )
+)
+
+server <- function(input, output, session) {
+  observe({
+    print(input$basic)
+  })
+}
+
+
+shinyApp(ui, server)

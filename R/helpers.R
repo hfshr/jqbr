@@ -45,8 +45,10 @@
 #'   shinyApp(ui, server)
 #' }
 #' @export
-filter_table <- function(data = NULL,
-                         filters = NULL) {
+filter_table <- function(
+  data = NULL,
+  filters = NULL
+) {
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
@@ -114,6 +116,12 @@ lookup <- function(id, operator, value) {
     "not_in" = "!%in%"
   )
 
+  op_7 <- list(
+    "is_empty" = "== \"\"",
+    "is_not_empty" = "!= \"\""
+  )
+
+
 
   # javascript boolean to R boolean
   ifelse(value %in% c("true", "false"), toupper(value), value)
@@ -134,13 +142,25 @@ lookup <- function(id, operator, value) {
   if (operator %in% names(op_4)) {
     if (operator == "between") {
       return(paste0(
-        id, " >= ", value[[1]],
-        " & ", id, " <= ", value[[2]]
+        id,
+        " >= ",
+        value[[1]],
+        " & ",
+        id,
+        " <= ",
+        value[[2]]
       ))
     } else {
       return(paste0(
-        "!(", id, " >= ", value[[1]],
-        " & ", id, " <= ", value[[2]], ")"
+        "!(",
+        id,
+        " >= ",
+        value[[1]],
+        " & ",
+        id,
+        " <= ",
+        value[[2]],
+        ")"
       ))
     }
   }
@@ -150,15 +170,23 @@ lookup <- function(id, operator, value) {
   if (operator %in% names(op_6)) {
     if (operator == "in") {
       return(paste0(
-        id, " %in% c(",
-        paste(value, collapse = ", "), ")"
+        id,
+        " %in% c(",
+        paste(value, collapse = ", "),
+        ")"
       ))
     } else {
       return(paste0(
-        "!(", id, " %in% c(",
-        paste(value, collapse = ", "), "))"
+        "!(",
+        id,
+        " %in% c(",
+        paste(value, collapse = ", "),
+        "))"
       ))
     }
+  }
+  if (operator %in% names(op_7)) {
+    return(paste(id, op_7[[operator]]))
   }
 }
 
@@ -180,14 +208,18 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
       if (is.null(fs)) {
         fs <- paste0(
           "(",
-          recurse_filter(filter = filter$rules[[i]]), ")"
+          recurse_filter(filter = filter$rules[[i]]),
+          ")"
         ) # first filter
       } else {
-        fs <- paste(fs, paste0(
-          "(",
-          recurse_filter(filter = filter$rules[[i]]), ")"
-        ),
-        sep = paste0(" ", condition[[filter$condition]], " ")
+        fs <- paste(
+          fs,
+          paste0(
+            "(",
+            recurse_filter(filter = filter$rules[[i]]),
+            ")"
+          ),
+          sep = paste0(" ", condition[[filter$condition]], " ")
         ) ## subsequent filters
       }
     } else { # not a nested filter group - process as a single filter
@@ -201,13 +233,16 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
             filter$rules[[i]]$value,
             function(x) {
               paste0(
-                '\"', x, '\"'
+                '\"',
+                x,
+                '\"'
               )
             }
           ) # date range
         } else {
           value <- paste0(
-            '\"', filter$rules[[i]]$value,
+            '\"',
+            filter$rules[[i]]$value,
             '\"'
           )
         }
@@ -228,13 +263,19 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
       if (is.null(fs)) {
         fs <- lookup(
           filter$rules[[i]]$id,
-          filter$rules[[i]]$operator, value
+          filter$rules[[i]]$operator,
+          value
         ) # first filter
       } else {
-        fs <- paste(fs, lookup(
-          filter$rules[[i]]$id,
-          filter$rules[[i]]$operator, value
-        ), sep = paste0(" ", condition[[filter$condition]], " "))
+        fs <- paste(
+          fs,
+          lookup(
+            filter$rules[[i]]$id,
+            filter$rules[[i]]$operator,
+            value
+          ),
+          sep = paste0(" ", condition[[filter$condition]], " ")
+        )
       }
     }
   }

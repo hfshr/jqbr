@@ -52,3 +52,55 @@ validate_plugins <- function(plugins) {
     )
   }
 }
+
+validate_operators <- function(add_na_filter, return_value) {
+
+
+
+
+}
+
+#' Operator list
+#'
+#' Helper function to specify the all available operators.
+#'
+#' @param operator_type string. one of "sql_operators" or "r_operators".
+#'
+#'
+#' @noRd
+operator_list <- function(add_na_filter = FALSE) {
+  ops <- list(
+    list(type = "equal"),
+    list(type = "not_equal"),
+    list(type = "in"),
+    list(type = "not_in"),
+    list(type = "less"),
+    list(type = "less_or_equal"),
+    list(type = "greater"),
+    list(type = "greater_or_equal"),
+    list(type = "between"),
+    list(type = "not_between"),
+    list(type = "begins_with"),
+    list(type = "not_begins_with"),
+    list(type = "contains"),
+    list(type = "not_contains"),
+    list(type = "ends_with"),
+    list(type = "not_ends_with"),
+    list(type = "is_null"),
+    list(type = "is_not_null"),
+    list(type = "is_not_empty"),
+    list(type = "is_empty")
+  )
+
+
+  if (add_na_filter) {
+    ops <- append(
+      ops,
+      list(
+        list(type = "is_na", nb_inputs = 0, apply_to = c("string", "number", "datetime", "boolean")),
+        list(type = "is_not_na", nb_inputs = 0, apply_to = c("string", "number", "datetime", "boolean"))
+      )
+    )
+  }
+  ops
+}

@@ -42,6 +42,7 @@ library(qbr)
 
 # Button to reset the build an remove all rules
 ui <- fluidPage(
+  useQueryBuilder(),
   queryBuilderInput(
     inputId = "qb",
     filters = list(
