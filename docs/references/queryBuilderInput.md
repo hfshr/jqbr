@@ -66,8 +66,32 @@ library(shiny)
 library(qbr)
 
 ui <- fluidPage(
+  useQueryBuilder(),
   queryBuilderInput(
     inputId = "qb",
+    filters = list(
+      list(
+        id = "name",
+        type = "string"
+      )
+    )
+  )
+)
+
+server <- function(input, output) {
+  observeEvent(input$qb, {
+    print(input$qb)
+  })
+}
+
+# Add is_na filter
+
+ui <- fluidPage(
+  useQueryBuilder(),
+  queryBuilderInput(
+    inputId = "qb",
+    add_na_filter = TRUE,
+    return_value = "r_rules",
     filters = list(
       list(
         id = "name",

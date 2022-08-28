@@ -1,6 +1,6 @@
 # qbr 1.0.2
 
-- Fixed issue where is_na and is_not_na operators were not being displayed [#4](https://github.com/hfshr/qbr/issues/4) 
+- Fixed issue where `is_na` and `is_not_na` operators were not being displayed [#4](https://github.com/hfshr/qbr/issues/4) 
 
 # qbr 1.0.1
 

@@ -66,16 +66,41 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @param return_value string. On of `"r_rules"`, `"rules"`, `"sql_rules"`
 #' or `"all"`. Default "r_rules". Determines the return value from the builder
 #' accessed with input$<builder_id> in shiny server
-#' @param add_na_filter bool. If `TRUE`, `"is_na"` and `"is_not_na"` are added to the global filter list
-#' for testing for NA values. Only works when `return_type` is "rules" or "r_rules".
+#' @param add_na_filter bool. Default is FALSE .If `TRUE`, `"is_na"` and `"is_not_na"`
+#'  are added to the global filter list for testing for NA values. Only works when
+#' `return_type` is "rules" or "r_rules".
 #'
 #' @examples
 #' library(shiny)
 #' library(qbr)
 #'
 #' ui <- fluidPage(
+#'   useQueryBuilder(),
 #'   queryBuilderInput(
 #'     inputId = "qb",
+#'     filters = list(
+#'       list(
+#'         id = "name",
+#'         type = "string"
+#'       )
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output) {
+#'   observeEvent(input$qb, {
+#'     print(input$qb)
+#'   })
+#' }
+#'
+#' # Add is_na filter
+#'
+#' ui <- fluidPage(
+#'   useQueryBuilder(),
+#'   queryBuilderInput(
+#'     inputId = "qb",
+#'     add_na_filter = TRUE,
+#'     return_value = "r_rules",
 #'     filters = list(
 #'       list(
 #'         id = "name",
@@ -94,6 +119,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' if (interactive()) {
 #'   shinyApp(ui, server)
 #' }
+#'
 #' @importFrom htmltools tags tagList
 #' @importFrom jsonlite toJSON
 #'
@@ -231,6 +257,7 @@ queryBuilderInput <- function(
 #'
 #' # Button to reset the build an remove all rules
 #' ui <- fluidPage(
+#'   useQueryBuilder(),
 #'   queryBuilderInput(
 #'     inputId = "qb",
 #'     filters = list(
