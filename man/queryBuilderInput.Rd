@@ -68,8 +68,8 @@ is defined, the first filter will be loaded when adding a rule.}
 
 \item{select_placeholder}{string. Label of the "no filter" option.}
 
-\item{operators}{list of list specifying custom operators. See
-https://querybuilder.js.org/#operators for more information}
+\item{operators}{NULL or string. Possible options are "r_operators" or "sql_operators".
+If NULL, all default operators will be used.}
 
 \item{return_value}{string. On of \code{"r_rules"}, \code{"rules"}, \code{"sql_rules"}
 or \code{"all"}. Default "r_rules". Determines the return value from the builder

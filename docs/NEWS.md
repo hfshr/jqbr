@@ -1,3 +1,11 @@
+# qbr 1.0.2
+
+- Fixed issue where is_na and is_not_na operators were not being displayed [#4](https://github.com/hfshr/qbr/issues/4) 
+
+# qbr 1.0.1
+
+- Remove base R pipe operators from `run_qbr_demo()`.
+
 # qbr 1.0.0
 
 **Breaking changes**

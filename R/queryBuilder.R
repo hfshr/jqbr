@@ -61,8 +61,9 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' to the filter dropdowns. If the empty filter is disabled and no `default_filter`
 #' is defined, the first filter will be loaded when adding a rule.
 #' @param select_placeholder string. Label of the "no filter" option.
-#' @param operators list of list specifying custom operators. See
-#' https://querybuilder.js.org/#operators for more information
+#' @param operators NULL or string. Possible options are "r_operators" or "sql_operators".
+#' If NULL, all default operators will be used. Using "r_operators" will allow `is_na` and `is_not_na`
+#' filter to be used, but these cannot be used with return type "all" or "sql" as they are not valid SQL operations.
 #' @param return_value string. On of `"r_rules"`, `"rules"`, `"sql_rules"`
 #' or `"all"`. Default "r_rules". Determines the return value from the builder
 #' accessed with input$<builder_id> in shiny server
@@ -96,29 +97,42 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-queryBuilderInput <- function(inputId,
-                              width = "100%",
-                              filters,
-                              plugins = NULL,
-                              rules = NULL,
-                              optgroups = NULL,
-                              default_filter = NULL,
-                              sort_filters = FALSE,
-                              allow_groups = TRUE,
-                              allow_empty = FALSE,
-                              display_errors = FALSE,
-                              conditions = c("AND", "OR"),
-                              default_condition = "AND",
-                              inputs_separator = ",",
-                              display_empty_filter = TRUE,
-                              select_placeholder = "------",
-                              operators = NULL,
-                              return_value = c("r_rules", "rules", "sql", "all")) {
+queryBuilderInput <- function(
+  inputId,
+  width = "100%",
+  filters,
+  plugins = NULL,
+  rules = NULL,
+  optgroups = NULL,
+  default_filter = NULL,
+  sort_filters = FALSE,
+  allow_groups = TRUE,
+  allow_empty = FALSE,
+  display_errors = FALSE,
+  conditions = c("AND", "OR"),
+  default_condition = "AND",
+  inputs_separator = ",",
+  display_empty_filter = TRUE,
+  select_placeholder = "------",
+  operators = NULL,
+  return_value = c("r_rules", "rules", "sql", "all")
+) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
   validate_filters(filters)
   validate_plugins(plugins)
+
+  if (!is.null(operators)) {
+    if (!operators %in% c("r_operators", "sql_operators")) {
+      stop(
+        "`operator` value must be one of `NULL`, \"r_operators\" or \"sql_operators\"",
+        call. = FALSE
+      )
+    } else {
+      operators <- operator_list(operator_type = operators)
+    }
+  }
 
   options <- list(
     filters = filters,
@@ -135,6 +149,12 @@ queryBuilderInput <- function(inputId,
     inputs_separator = inputs_separator,
     display_empty_filter = display_empty_filter,
     select_placeholder = select_placeholder,
+    lang = list(
+      operators = list(
+        "is_na" = "is NA",
+        "is_not_na" = "is not NA"
+      )
+    ),
     operators = operators
   )
 
@@ -142,7 +162,10 @@ queryBuilderInput <- function(inputId,
 
   return_value <- match.arg(return_value)
 
+  validate_operators(operators = options[["operators"]], return_value = return_value)
+
   options <- drop_nulls(options)
+
 
   options <- jsonlite::toJSON(
     options,
@@ -224,13 +247,15 @@ queryBuilderInput <- function(inputId,
 #'   shinyApp(ui, server)
 #' }
 #' @export
-updateQueryBuilder <- function(inputId,
-                               setFilters = NULL,
-                               addFilter = NULL,
-                               setRules = NULL,
-                               destroy = FALSE,
-                               reset = FALSE,
-                               session = shiny::getDefaultReactiveDomain()) {
+updateQueryBuilder <- function(
+  inputId,
+  setFilters = NULL,
+  addFilter = NULL,
+  setRules = NULL,
+  destroy = FALSE,
+  reset = FALSE,
+  session = shiny::getDefaultReactiveDomain()
+) {
   message <- list(
     setFilters = setFilters,
     addFilter = addFilter,
