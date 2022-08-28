@@ -2,11 +2,13 @@
 
 Apply query to a dataframe
 
+
 ## Description
 
-Filter a dataframe using the output of a queryBuilder. The `return_value`
-Should be set to `r_rules` , and the list of filters should contain column names
-that are present in the data as their id value.
+Filter a dataframe using the output of a queryBuilder. The `return_value` 
+ Should be set to `r_rules` , and the list of filters should contain column names
+ that are present in the data as their id value.
+
 
 ## Usage
 
@@ -14,12 +16,14 @@ that are present in the data as their id value.
 filter_table(data = NULL, filters = NULL)
 ```
 
+
 ## Arguments
 
-| Argument  | Description                                                |
-| --------- | ---------------------------------------------------------- |
-| `data`    | `data.frame` to filter.                                    |
-| `filters` | output from queryBuilder when `return_value = "r_rules"` . |
+Argument      |Description
+------------- |----------------
+`data`     |     `data.frame` to filter.
+`filters`     |     output from queryBuilder when `return_value = "r_rules"` .
+
 
 ## Examples
 
