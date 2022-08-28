@@ -61,12 +61,13 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' to the filter dropdowns. If the empty filter is disabled and no `default_filter`
 #' is defined, the first filter will be loaded when adding a rule.
 #' @param select_placeholder string. Label of the "no filter" option.
-#' @param operators NULL or string. Possible options are "r_operators" or "sql_operators".
-#' If NULL, all default operators will be used. Using "r_operators" will allow `is_na` and `is_not_na`
-#' filter to be used, but these cannot be used with return type "all" or "sql" as they are not valid SQL operations.
+#' @param operators NULL or list. If a list, format should follow that described
+#' here: https://querybuilder.js.org/#operators
 #' @param return_value string. On of `"r_rules"`, `"rules"`, `"sql_rules"`
 #' or `"all"`. Default "r_rules". Determines the return value from the builder
 #' accessed with input$<builder_id> in shiny server
+#' @param add_na_filter bool. If `TRUE`, `"is_na"` and `"is_not_na"` are added to the global filter list
+#' for testing for NA values. Only works when `return_type` is "rules" or "r_rules".
 #'
 #' @examples
 #' library(shiny)
@@ -115,6 +116,7 @@ queryBuilderInput <- function(
   display_empty_filter = TRUE,
   select_placeholder = "------",
   operators = NULL,
+  add_na_filter = FALSE,
   return_value = c("r_rules", "rules", "sql", "all")
 ) {
   stopifnot(!missing(inputId))
@@ -123,15 +125,23 @@ queryBuilderInput <- function(
   validate_filters(filters)
   validate_plugins(plugins)
 
-  if (!is.null(operators)) {
-    if (!operators %in% c("r_operators", "sql_operators")) {
-      stop(
-        "`operator` value must be one of `NULL`, \"r_operators\" or \"sql_operators\"",
-        call. = FALSE
-      )
-    } else {
-      operators <- operator_list(operator_type = operators)
-    }
+  if (!is.null(operators) && typeof(operators) != "list") {
+    stop(
+      "`operator` value must be a list or NULL.",
+      call. = FALSE
+    )
+  }
+
+  if (add_na_filter && return_value %in% c("all", "sql")) {
+    stop(
+      "Operators must not include `is_na` or `is_not_na`
+      when using return_type \"all\" or \"sql\"",
+      call. = FALSE
+    )
+  }
+
+  if (is.null(operators)) {
+    operators <- operator_list(add_na_filter = add_na_filter)
   }
 
   options <- list(
@@ -162,7 +172,6 @@ queryBuilderInput <- function(
 
   return_value <- match.arg(return_value)
 
-  validate_operators(operators = options[["operators"]], return_value = return_value)
 
   options <- drop_nulls(options)
 

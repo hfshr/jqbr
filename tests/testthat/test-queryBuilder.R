@@ -32,7 +32,7 @@ test_that("operator input works", {
       inputId = "test",
       filters = filters,
       return_value = "all",
-      operators = "r_operators"
+      operators = "oops"
     )
   })
 
@@ -41,22 +41,11 @@ test_that("operator input works", {
       inputId = "test",
       filters = filters,
       return_value = "sql",
-      operators = "r_operators"
+      add_na_filter = TRUE
     )
   })
 
 
-  expect_type(
-    {
-      queryBuilderInput(
-        inputId = "test",
-        filters = filters,
-        return_value = "sql",
-        operators = "sql_operators"
-      )
-    },
-    "list"
-  )
 
   expect_type(
     {
@@ -64,7 +53,7 @@ test_that("operator input works", {
         inputId = "test",
         filters = filters,
         return_value = "r_rules",
-        operators = "r_operators"
+        add_na_filter = TRUE
       )
     },
     "list"

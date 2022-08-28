@@ -74,8 +74,8 @@ r_builder_ui <- function(id) {
           filters = r_filters,
           return_value = "r_rules",
           display_errors = TRUE,
-          operators = "r_operators",
-          rules = rules_r
+          rules = rules_r,
+          add_na_filter = TRUE
         ),
       ),
       column(

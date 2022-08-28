@@ -53,16 +53,11 @@ validate_plugins <- function(plugins) {
   }
 }
 
-validate_operators <- function(operators, return_value) {
-  all_operators <- unlist(lapply(operators, `[[`, "type"))
-  if (return_value %in% c("all", "sql") &&
-    any(grepl("\\bis_na\\b|\\bis_not_na\\b", all_operators))) {
-    stop(
-      "Operators must not include `is_na` or `is_not_na`
-      when using return_type \"all\" or \"sql_rules\"",
-      call. = FALSE
-    )
-  }
+validate_operators <- function(add_na_filter, return_value) {
+
+
+
+
 }
 
 #' Operator list
@@ -73,8 +68,7 @@ validate_operators <- function(operators, return_value) {
 #'
 #'
 #' @noRd
-operator_list <- function(operator_type = c("sql_operators", "r_operators")) {
-  operator_type <- match.arg(operator_type)
+operator_list <- function(add_na_filter = FALSE) {
   ops <- list(
     list(type = "equal"),
     list(type = "not_equal"),
@@ -93,21 +87,13 @@ operator_list <- function(operator_type = c("sql_operators", "r_operators")) {
     list(type = "ends_with"),
     list(type = "not_ends_with"),
     list(type = "is_null"),
-    list(type = "is_not_null")
+    list(type = "is_not_null"),
+    list(type = "is_not_empty"),
+    list(type = "is_empty")
   )
 
 
-  if (operator_type == "sql_operators") {
-    ops <- append(
-      ops,
-      list(
-        list(type = "is_not_empty"),
-        list(type = "is_empty")
-      )
-    )
-  }
-
-  if (operator_type == "r_operators") {
+  if (add_na_filter) {
     ops <- append(
       ops,
       list(

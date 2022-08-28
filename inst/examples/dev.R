@@ -276,8 +276,7 @@ ui <- fluidPage(
     inputId = "basic",
     filters = filters,
     rules = rules_basic,
-    return_value = "r_rules",
-    operators = list(list(type = "equal"))
+    return_value = "r_rules"
   )
 )
 

@@ -54,8 +54,9 @@ Argument      |Description
 `inputs_separator`     |     string used to separate multiple inputs (for between operator). default is ",".
 `display_empty_filter`     |     boolean. Default `TRUE` . Add an empty option with `select_placeholder` string to the filter dropdowns. If the empty filter is disabled and no `default_filter`  is defined, the first filter will be loaded when adding a rule.
 `select_placeholder`     |     string. Label of the "no filter" option.
-`operators`     |     NULL or string. Possible options are "r_operators" or "sql_operators". If NULL, all default operators will be used.
+`operators`     |     NULL or list. If a list, format should follow that described here: https://querybuilder.js.org/#operators
 `return_value`     |     string. On of `"r_rules"` , `"rules"` , `"sql_rules"`  or `"all"` . Default "r_rules". Determines the return value from the builder accessed with input$<builder_id> in shiny server
+`add_na_filter`      |     bool. If `TRUE`, `"is_na"` and `"is_not_na"` are added to the global filter list for testing for NA values. Only works when `return_type` is "rules" or "r_rules".
 
 
 ## Examples

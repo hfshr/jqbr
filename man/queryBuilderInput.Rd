@@ -22,6 +22,7 @@ queryBuilderInput(
   display_empty_filter = TRUE,
   select_placeholder = "------",
   operators = NULL,
+  add_na_filter = FALSE,
   return_value = c("r_rules", "rules", "sql", "all")
 )
 }
@@ -68,8 +69,11 @@ is defined, the first filter will be loaded when adding a rule.}
 
 \item{select_placeholder}{string. Label of the "no filter" option.}
 
-\item{operators}{NULL or string. Possible options are "r_operators" or "sql_operators".
-If NULL, all default operators will be used.}
+\item{operators}{NULL or list. If a list, format should follow that described
+here: https://querybuilder.js.org/#operators}
+
+\item{add_na_filter}{bool. If \code{TRUE}, \code{"is_na"} and \code{"is_not_na"} are added to the global filter list
+for testing for NA values. Only works when \code{return_type} is "rules" or "r_rules".}
 
 \item{return_value}{string. On of \code{"r_rules"}, \code{"rules"}, \code{"sql_rules"}
 or \code{"all"}. Default "r_rules". Determines the return value from the builder
