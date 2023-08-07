@@ -42,7 +42,7 @@ plugin_builder_ui <- function(id) {
         width = 12,
         h2("Plugins"),
         p(
-          "qbr supports the use of plugins that enhance the builders
+          "jqbr supports the use of plugins that enhance the builders
                 functionality.
                 For more information about the plugins see ",
           tags$a(href = "https://querybuilder.js.org/plugins.html", "here")

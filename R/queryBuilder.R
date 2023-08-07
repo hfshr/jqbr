@@ -24,7 +24,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
   htmltools::htmlDependency(
     name = "queryBuilderBinding",
     version = "1.0.0",
-    src = c(file = system.file("packer", package = "qbr")),
+    src = c(file = system.file("packer", package = "jqbr")),
     script = c("queryBuilder.js", query_builder_bs),
     stylesheet = query_builder_css
   )
@@ -72,7 +72,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #'
 #' @examples
 #' library(shiny)
-#' library(qbr)
+#' library(jqbr)
 #'
 #' ui <- fluidPage(
 #'   useQueryBuilder(),
@@ -124,27 +124,25 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-queryBuilderInput <- function(
-  inputId,
-  width = "100%",
-  filters,
-  plugins = NULL,
-  rules = NULL,
-  optgroups = NULL,
-  default_filter = NULL,
-  sort_filters = FALSE,
-  allow_groups = TRUE,
-  allow_empty = FALSE,
-  display_errors = FALSE,
-  conditions = c("AND", "OR"),
-  default_condition = "AND",
-  inputs_separator = ",",
-  display_empty_filter = TRUE,
-  select_placeholder = "------",
-  operators = NULL,
-  add_na_filter = FALSE,
-  return_value = c("r_rules", "rules", "sql", "all")
-) {
+queryBuilderInput <- function(inputId,
+                              width = "100%",
+                              filters,
+                              plugins = NULL,
+                              rules = NULL,
+                              optgroups = NULL,
+                              default_filter = NULL,
+                              sort_filters = FALSE,
+                              allow_groups = TRUE,
+                              allow_empty = FALSE,
+                              display_errors = FALSE,
+                              conditions = c("AND", "OR"),
+                              default_condition = "AND",
+                              inputs_separator = ",",
+                              display_empty_filter = TRUE,
+                              select_placeholder = "------",
+                              operators = NULL,
+                              add_na_filter = FALSE,
+                              return_value = c("r_rules", "rules", "sql", "all")) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
@@ -253,7 +251,7 @@ queryBuilderInput <- function(
 #'
 #' @examples
 #' library(shiny)
-#' library(qbr)
+#' library(jqbr)
 #'
 #' # Button to reset the build an remove all rules
 #' ui <- fluidPage(
@@ -283,15 +281,13 @@ queryBuilderInput <- function(
 #'   shinyApp(ui, server)
 #' }
 #' @export
-updateQueryBuilder <- function(
-  inputId,
-  setFilters = NULL,
-  addFilter = NULL,
-  setRules = NULL,
-  destroy = FALSE,
-  reset = FALSE,
-  session = shiny::getDefaultReactiveDomain()
-) {
+updateQueryBuilder <- function(inputId,
+                               setFilters = NULL,
+                               addFilter = NULL,
+                               setRules = NULL,
+                               destroy = FALSE,
+                               reset = FALSE,
+                               session = shiny::getDefaultReactiveDomain()) {
   message <- list(
     setFilters = setFilters,
     addFilter = addFilter,

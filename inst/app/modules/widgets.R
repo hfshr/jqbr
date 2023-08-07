@@ -107,7 +107,7 @@ widget_builder_ui <- function(id) {
       column(
         width = 8,
         h2("Widgets"),
-        p("qbr supports all three available widgets for queryBuilder: 'datepicker',
+        p("jqbr supports all three available widgets for queryBuilder: 'datepicker',
                 'slider' and 'selectize'. See them in action below.")
       )
     ),

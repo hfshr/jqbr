@@ -1,6 +1,6 @@
 # Plugins
 
-queryBuilder provides the ability to use several plugins that enhance the functionality of the defauly builder. See a full list of available plugins [here](https://querybuilder.js.org/demo.html#plugins) Many of these are supported by `qbr` and can be accessed by using a named list in the call to `queryBuilderInput`.
+queryBuilder provides the ability to use several plugins that enhance the functionality of the defauly builder. See a full list of available plugins [here](https://querybuilder.js.org/demo.html#plugins) Many of these are supported by `jqbr` and can be accessed by using a named list in the call to `queryBuilderInput`.
 
 ```r
 plugins <- list(

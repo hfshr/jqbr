@@ -1,11 +1,11 @@
 # Basic usage
 
-To use `qbr`, include `useQueryBuilder` in your UI, and then use `queryBuilderInput` to initiate the builder. Only the `inputId` and list of `filters` are required. For more information about what the list of filters should look like see [filters](/filters).
+To use `jqbr`, include `useQueryBuilder` in your UI, and then use `queryBuilderInput` to initiate the builder. Only the `inputId` and list of `filters` are required. For more information about what the list of filters should look like see [filters](/filters).
 
 ```r
 
 library(shiny)
-library(qbr)
+library(jqbr)
 
 ui <- fluidPage(
     useQueryBuilder(),
@@ -69,7 +69,7 @@ You can also use the `updateQueryBuilder` to perform a variety of actions on the
       inputId = "qb",
       reset = TRUE
     )
-  }) %>%
+  }) |>
     bindEvent(input$reset)
 
 ```

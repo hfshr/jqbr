@@ -85,7 +85,7 @@ Shiny input bindings for queryBuilder.
 }
 \examples{
 library(shiny)
-library(qbr)
+library(jqbr)
 
 ui <- fluidPage(
   useQueryBuilder(),

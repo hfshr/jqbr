@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-^qbr\.Rproj$
+^jqbr\.Rproj$
 ^\.github$
 ^srcjs$
 ^node_modules$

@@ -10,7 +10,7 @@ new Docute({
     },
     {
       title: "Github",
-      link: "https://github.com/hfshr/qbr",
+      link: "https://github.com/hfshr/jqbr",
     },
   ],
   sidebar: [
@@ -45,14 +45,14 @@ new Docute({
       children: [
         { title: "Filter table", link: "/references/filter_table" },
         { title: "queryBuilderInput", link: "/references/queryBuilderInput" },
-        { title: "Run qbr demo", link: "/references/run_qbr_demo" },
+        { title: "Run jqbr demo", link: "/references/run_jqbr_demo" },
         { title: "updateQueryBuilder", link: "/references/updateQueryBuilder" },
         { title: "useQueryBuilder", link: "/references/useQueryBuilder" },
       ],
     },
     {
       title: "GitHub",
-      link: "https://github.com/hfshr/qbr",
+      link: "https://github.com/hfshr/jqbr",
     },
   ],
 });

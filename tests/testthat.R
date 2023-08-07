@@ -1,4 +1,4 @@
 library(testthat)
-library(qbr)
+library(jqbr)
 
-test_check("qbr")
+test_check("jqbr")

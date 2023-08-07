@@ -10,7 +10,7 @@
 #' @examples
 #'
 #' library(shiny)
-#' library(qbr)
+#' library(jqbr)
 #'
 #' filters <- list(
 #'   list(
@@ -45,10 +45,8 @@
 #'   shinyApp(ui, server)
 #' }
 #' @export
-filter_table <- function(
-  data = NULL,
-  filters = NULL
-) {
+filter_table <- function(data = NULL,
+                         filters = NULL) {
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }

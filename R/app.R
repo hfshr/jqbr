@@ -1,17 +1,17 @@
-#' run_qbr_demo
+#' run_jqbr_demo
 #'
-#' Run the qbr demo app
+#' Run the jqbr demo app
 #'
 #' @examples
 #'
 #' if (interactive()) {
-#'   run_qbr_demo()
+#'   run_jqbr_demo()
 #' }
 #' @export
-run_qbr_demo <- function() {
-  appDir <- system.file("app", package = "qbr")
+run_jqbr_demo <- function() {
+  appDir <- system.file("app", package = "jqbr")
   if (appDir == "") {
-    stop("Could not find example directory. Try re-installing `mypackage`.", call. = FALSE)
+    stop("Could not find example directory. Try re-installing `jqbr`.", call. = FALSE)
   }
 
   shiny::runApp(appDir, display.mode = "normal")

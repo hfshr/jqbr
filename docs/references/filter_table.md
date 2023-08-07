@@ -29,38 +29,40 @@ Argument      |Description
 
 ```r
 library(shiny)
-library(qbr)
+library(jqbr)
 
 filters <- list(
-  list(
-    id = "cyl",
-    type = "integer",
-    input = "radio",
-    values = list(
-      4,
-      6,
-      8
+    list(
+        id = "cyl",
+        type = "integer",
+        input = "radio",
+        values = list(
+            4,
+            6,
+            8
+        )
     )
-  )
 )
 
 ui <- fluidPage(
-  queryBuilderInput(
-    inputId = "r_filter",
-    filters = filters,
-    return_value = "r_rules"
-  ),
-  tableOutput("cars")
+    queryBuilderInput(
+        inputId = "r_filter",
+        filters = filters,
+        return_value = "r_rules"
+    ),
+    tableOutput("cars")
 )
 
 server <- function(input, output) {
-  output$cars <- renderTable({
-    filter_table(mtcars, input$r_filter)
-  })
+    output$cars <- renderTable({
+        filter_table(mtcars, input$r_filter)
+    })
 }
 
 
 if (interactive()) {
-  shinyApp(ui, server)
+    shinyApp(ui, server)
 }
 ```
+
+

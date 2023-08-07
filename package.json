@@ -1,6 +1,6 @@
 {
-  "name": "qbr",
-  "version": "1.0.0",
+  "name": "jqbr",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {

@@ -40,34 +40,33 @@ Argument      |Description
 
 ```r
 library(shiny)
-library(qbr)
+library(jqbr)
 
 # Button to reset the build an remove all rules
 ui <- fluidPage(
-  queryBuilderInput(
-    inputId = "qb",
-    filters = list(
-      list(
-        id = "name",
-        type = "string"
-      )
-    )
-  ),
-  actionButton("reset", "Reset")
+    useQueryBuilder(),
+    queryBuilderInput(
+        inputId = "qb",
+        filters = list(
+            list(
+                id = "name",
+                type = "string"
+            )
+        )
+    ),
+    actionButton("reset", "Reset")
 )
 
 server <- function(input, output) {
-  observeEvent(input$reset, {
-    updateQueryBuilder(
-      inputId = "qb",
-      reset = TRUE
-    )
-  })
+    observeEvent(input$reset, {
+        updateQueryBuilder(
+            inputId = "qb",
+            reset = TRUE
+        )
+    })
 }
 
 if (interactive()) {
-  shinyApp(ui, server)
+    shinyApp(ui, server)
 }
 ```
-
-

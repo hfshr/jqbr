@@ -17,16 +17,16 @@ $.extend(queryBuilderBinding, {
   getType: function (el) {
     let return_type = $(el).attr("data-return");
     if (return_type === "r_rules") {
-      return "qbr.r_rules";
+      return "jqbr.r_rules";
     }
     if (return_type === "rules") {
-      return "qbr.rules";
+      return "jqbr.rules";
     }
     if (return_type === "sql") {
-      return "qbr.sql_rules";
+      return "jqbr.sql_rules";
     }
     if (return_type === "all") {
-      return "qbr.all";
+      return "jqbr.all";
     }
   },
   initialize: (el) => {
@@ -117,4 +117,4 @@ $.extend(queryBuilderBinding, {
   },
 });
 
-Shiny.inputBindings.register(queryBuilderBinding, "qbr.queryBuilderBinding");
+Shiny.inputBindings.register(queryBuilderBinding, "jqbr.queryBuilderBinding");

@@ -18,5 +18,5 @@ jobs:
         with:
           drat_repo: "hfshr/drat"
           token: "${{ secrets.DRAT_SECRET }}"
-          commit_message: "Automated update (add qbr)"
+          commit_message: "Automated update (add jqbr)"
           commit_email: "harryfisher21@gmail.com"

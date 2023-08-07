@@ -2,7 +2,7 @@
 
 export(filter_table)
 export(queryBuilderInput)
-export(run_qbr_demo)
+export(run_jqbr_demo)
 export(updateQueryBuilder)
 export(useQueryBuilder)
 importFrom(htmltools,tagList)

@@ -19,7 +19,7 @@ that are present in the data as their id value.
 \examples{
 
 library(shiny)
-library(qbr)
+library(jqbr)
 
 filters <- list(
   list(

@@ -38,7 +38,7 @@ Update a queryBuilder with available methods.
 }
 \examples{
 library(shiny)
-library(qbr)
+library(jqbr)
 
 # Button to reset the build an remove all rules
 ui <- fluidPage(

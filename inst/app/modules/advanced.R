@@ -73,8 +73,8 @@ advanced_builder_ui <- function(id) {
         width = 12,
         h2("Advanced"),
         p(
-          "qbr supports javascript functions to define custom inputs.",
-          "Just pass the js function as a string and qbr will handle the rest!",
+          "jqbr supports javascript functions to define custom inputs.",
+          "Just pass the js function as a string and jqbr will handle the rest!",
           "Based on the example ", tags$a(
             href = "https://querybuilder.js.org/demo.html#widgets",
             "here."

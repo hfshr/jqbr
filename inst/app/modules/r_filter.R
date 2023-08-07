@@ -59,7 +59,7 @@ r_builder_ui <- function(id) {
         width = 12,
         h2("R filter"),
         p(
-          "qbr comes with a helper function",
+          "jqbr comes with a helper function",
           tags$code("filter_table"),
           "to automatically apply the output to a table in R"
         )

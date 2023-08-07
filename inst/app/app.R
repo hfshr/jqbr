@@ -1,5 +1,5 @@
 library(shiny)
-library(qbr)
+library(jqbr)
 library(bslib)
 
 
@@ -29,20 +29,20 @@ ui <- fluidPage(
           href = "https://querybuilder.js.org/index.html",
           "https://querybuilder.js.org/index.html"
         ),
-        "implemented as R shiny inputs in the {qbr} package",
+        "implemented as R shiny inputs in the {jqbr} package",
       ),
       p(
         "Github repo: ",
         tags$a(
-          href = "https://github.com/hfshr/qbr",
-          "https://github.com/hfshr/qbr"
+          href = "https://github.com/hfshr/jqbr",
+          "https://github.com/hfshr/jqbr"
         ),
       ),
       p(
         "Documentation: ",
         tags$a(
-          href = "https://hfshr.github.io/qbr",
-          "https://hfshr.github.io/qbr"
+          href = "https://hfshr.github.io/jqbr",
+          "https://hfshr.github.io/jqbr"
         )
       )
     )
