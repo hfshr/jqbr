@@ -1,5 +1,5 @@
 Package: jqbr
-Title: R interface to jQuery QueryBuilder
+Title: R Interface to jQuery QueryBuilder
 Version: 1.0.3
 Authors@R: 
     person("Harry", "Fisher", , "harryfisher21@gmail.com", role = c("aut", "cre"))

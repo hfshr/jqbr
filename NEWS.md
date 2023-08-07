@@ -1,6 +1,6 @@
 # jqbr 1.0.3
 
-- Package has been renamed from `qbr` -> `jqbr` to avoid a conflict with an existing CRAN package called `qbr` [#7](https://github.com/hfshr/qbr/issues/7)
+- Package has been renamed from `qbr` -> `jqbr` to avoid a conflict with an existing CRAN package called `qbr` [#7](https://github.com/hfshr/jqbr/issues/7)
 
 # qbr 1.0.2
 
