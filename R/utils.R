@@ -53,13 +53,6 @@ validate_plugins <- function(plugins) {
   }
 }
 
-validate_operators <- function(add_na_filter, return_value) {
-
-
-
-
-}
-
 #' Operator list
 #'
 #' Helper function to specify the all available operators.
