@@ -1,10 +1,9 @@
 Package: jqbr
-Title: jQuery QueryBuilder Input for Shiny
+Title: 'jQuery QueryBuilder' Input for 'Shiny'
 Version: 1.0.3
 Authors@R: 
     person("Harry", "Fisher", , "harryfisher21@gmail.com", role = c("aut", "cre"))
-Description: A Shiny input for jQuery QueryBuilder: a jQuery plugin
-    offering a simple interface to create complex queries.
+Description: A 'jQuery' plugin offering a simple interface to create complex queries in 'Shiny'.
 License: MIT + file LICENSE
 URL: https://github.com/hfshr/jqbr, https://hfshr.github.io/jqbr
 BugReports: https://github.com/hfshr/jqbr/issues
