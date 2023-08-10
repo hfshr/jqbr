@@ -1,4 +1,4 @@
-# jqbr <img src='assets/img/hex-jqbr.png' align="right" height="160" />
+# jqbr <img src='assets/img/hex-qbr.png' align="right" height="160" />
 
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
