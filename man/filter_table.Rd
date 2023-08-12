@@ -11,6 +11,9 @@ filter_table(data = NULL, filters = NULL)
 
 \item{filters}{output from queryBuilder when \code{return_value = "r_rules"}.}
 }
+\value{
+A filtered version of the input \code{data.frame}
+}
 \description{
 Filter a dataframe using the output of a queryBuilder. The \code{return_value}
 Should be set to \code{r_rules}, and the list of filters should contain column names

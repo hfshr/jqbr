@@ -25,6 +25,11 @@ Argument      |Description
 `filters`     |     output from queryBuilder when `return_value = "r_rules"` .
 
 
+## Value
+
+A filtered version of the input `data.frame`
+
+
 ## Examples
 
 ```r

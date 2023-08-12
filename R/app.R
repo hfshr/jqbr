@@ -2,6 +2,8 @@
 #'
 #' Run the jqbr demo app
 #'
+#' @return A Shiny app
+#'
 #' @examples
 #'
 #' if (interactive()) {

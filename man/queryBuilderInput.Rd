@@ -80,6 +80,10 @@ are added to the global filter list for testing for NA values. Only works when
 or \code{"all"}. Default "r_rules". Determines the return value from the builder
 accessed with input$<builder_id> in shiny server}
 }
+\value{
+A \code{\link[htmltools:tagList]{htmltools::tagList()}} containing the queryBuilder
+dependencies and configuration that can be added to a \link{shiny} UI definition.
+}
 \description{
 Shiny input bindings for queryBuilder.
 }

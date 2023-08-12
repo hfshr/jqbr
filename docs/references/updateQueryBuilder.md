@@ -36,9 +36,15 @@ Argument      |Description
 `session`     |     The session object passed to function given to shinyServer. Default is getDefaultReactiveDomain().
 
 
+## Value
+
+An updated [`queryBuilderInput()`](#querybuilderinput())
+
+
 ## Examples
 
 ```r
+
 library(shiny)
 library(jqbr)
 
@@ -70,3 +76,5 @@ if (interactive()) {
     shinyApp(ui, server)
 }
 ```
+
+

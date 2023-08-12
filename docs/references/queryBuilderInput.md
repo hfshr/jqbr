@@ -60,6 +60,12 @@ Argument      |Description
 `return_value`     |     string. On of `"r_rules"` , `"rules"` , `"sql_rules"`  or `"all"` . Default "r_rules". Determines the return value from the builder accessed with input$<builder_id> in shiny server
 
 
+## Value
+
+A [`htmltools::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html) containing the queryBuilder
+ dependencies and configuration that can be added to a [shiny](https://shiny.posit.co/r/reference/shiny/) UI definition.
+
+
 ## Examples
 
 ```r

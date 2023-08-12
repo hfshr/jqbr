@@ -3,7 +3,12 @@ Title: 'jQuery QueryBuilder' Input for 'Shiny'
 Version: 1.0.3
 Authors@R: 
     person("Harry", "Fisher", , "harryfisher21@gmail.com", role = c("aut", "cre"))
-Description: A 'jQuery' plugin offering a simple interface to create complex queries in 'Shiny'.
+Description: A highly configurable 'jQuery' plugin offering a simple
+    interface to create complex queries/filters in 'Shiny'. The outputted
+    rules can easily be parsed into a set of 'R' and/or 'SQL' queries and
+    used to filter data. Custom parsing of the rules is also supported.
+    For more information about 'jQuery QueryBuilder' see
+    <https://querybuilder.js.org/>.
 License: MIT + file LICENSE
 URL: https://github.com/hfshr/jqbr, https://hfshr.github.io/jqbr/
 BugReports: https://github.com/hfshr/jqbr/issues

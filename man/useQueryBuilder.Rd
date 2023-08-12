@@ -10,6 +10,10 @@ useQueryBuilder(bs_version = c("3", "4", "5"))
 \item{bs_version}{The version of bootstrap to use with the builder.
 Possible values are "3", "4" or "5"}
 }
+\value{
+list. html dependency for queryBuilderBinding.
+See \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} for further information.
+}
 \description{
 Make a call to \code{useQueryBuilder} in your ui code to load the
 required dependencies for the queryBuilder and optionally specify the

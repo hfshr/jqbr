@@ -46,31 +46,3 @@ json <- purrr::map(files, function(x) {
 json <- jsonlite::toJSON(json, pretty = FALSE, auto_unbox = TRUE)
 
 cat(json, "\n")
-
-
-ui <- fluidPage(
-    useQueryBuilder(),
-    queryBuilderInput(
-        inputId = "qb",
-        filters = list(
-            list(
-                id = "name",
-                type = "string"
-            )
-        )
-    ),
-    actionButton("reset", "Reset")
-)
-
-server <- function(input, output) {
-    observeEvent(input$reset, {
-        updateQueryBuilder(
-            inputId = "qb",
-            reset = TRUE
-        )
-    })
-}
-
-if (interactive()) {
-    shinyApp(ui, server)
-}

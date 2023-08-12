@@ -7,6 +7,9 @@
 #' @param bs_version The version of bootstrap to use with the builder.
 #' Possible values are "3", "4" or "5"
 #'
+#' @return list. html dependency for queryBuilderBinding.
+#' See [htmltools::htmlDependency()] for further information.
+#'
 #' @export
 useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
   bs_version <- match.arg(bs_version)
@@ -69,6 +72,9 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @param add_na_filter bool. Default is FALSE .If `TRUE`, `"is_na"` and `"is_not_na"`
 #'  are added to the global filter list for testing for NA values. Only works when
 #' `return_type` is "rules" or "r_rules".
+#'
+#' @return A [htmltools::tagList()] containing the queryBuilder
+#' dependencies and configuration that can be added to a [shiny] UI definition.
 #'
 #' @examples
 #' library(shiny)
@@ -248,6 +254,8 @@ queryBuilderInput <- function(inputId,
 #' to shinyServer. Default is getDefaultReactiveDomain().
 #'
 #' @importFrom shiny getDefaultReactiveDomain
+#'
+#' @return An updated [queryBuilderInput()]
 #'
 #' @examples
 #' library(shiny)

@@ -33,6 +33,9 @@ to insert the rule. If position if ommited, filter will be inserted at the end.}
 \item{session}{The session object passed to function given
 to shinyServer. Default is getDefaultReactiveDomain().}
 }
+\value{
+An updated \code{\link[=queryBuilderInput]{queryBuilderInput()}}
+}
 \description{
 Update a queryBuilder with available methods.
 }

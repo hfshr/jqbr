@@ -15,6 +15,11 @@ run_jqbr_demo()
 ```
 
 
+## Value
+
+A Shiny app
+
+
 ## Examples
 
 ```r

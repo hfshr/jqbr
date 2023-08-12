@@ -6,6 +6,9 @@
 \usage{
 run_jqbr_demo()
 }
+\value{
+A Shiny app
+}
 \description{
 Run the jqbr demo app
 }

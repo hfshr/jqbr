@@ -7,6 +7,8 @@
 #' @param data `data.frame` to filter.
 #' @param filters output from queryBuilder when `return_value = "r_rules"`.
 #'
+#' @return A filtered version of the input `data.frame`
+#'
 #' @examples
 #'
 #' library(shiny)
