@@ -16,3 +16,4 @@
 ^pkgdown$
 ^\.lintr$
 ^.devcontainer
+^cran-comments\.md$
