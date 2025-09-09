@@ -85,13 +85,20 @@ operator_list <- function(add_na_filter = FALSE) {
     list(type = "is_empty")
   )
 
-
   if (add_na_filter) {
     ops <- append(
       ops,
       list(
-        list(type = "is_na", nb_inputs = 0, apply_to = c("string", "number", "datetime", "boolean")),
-        list(type = "is_not_na", nb_inputs = 0, apply_to = c("string", "number", "datetime", "boolean"))
+        list(
+          type = "is_na",
+          nb_inputs = 0,
+          apply_to = c("string", "number", "datetime", "boolean")
+        ),
+        list(
+          type = "is_not_na",
+          nb_inputs = 0,
+          apply_to = c("string", "number", "datetime", "boolean")
+        )
       )
     )
   }

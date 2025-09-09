@@ -47,8 +47,7 @@
 #'   shinyApp(ui, server)
 #' }
 #' @export
-filter_table <- function(data = NULL,
-                         filters = NULL) {
+filter_table <- function(data = NULL, filters = NULL) {
   if (is.null(filters) || !length(filters) || is.null(data)) {
     return(data)
   }
@@ -120,8 +119,6 @@ lookup <- function(id, operator, value) {
     "is_empty" = "== \"\"",
     "is_not_empty" = "!= \"\""
   )
-
-
 
   # javascript boolean to R boolean
   ifelse(value %in% c("true", "false"), toupper(value), value)
@@ -204,7 +201,8 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
   condition <- list("AND" = "&", "OR" = "|")
   fs <- NULL
   for (i in seq_along(filter$rules)) {
-    if (typeof(filter$rules[[i]]$rules) == "list") { # nested filter group
+    if (typeof(filter$rules[[i]]$rules) == "list") {
+      # nested filter group
       if (is.null(fs)) {
         fs <- paste0(
           "(",
@@ -222,7 +220,8 @@ recurse_filter <- function(filter = NULL, date_format = NULL) {
           sep = paste0(" ", condition[[filter$condition]], " ")
         ) ## subsequent filters
       }
-    } else { # not a nested filter group - process as a single filter
+    } else {
+      # not a nested filter group - process as a single filter
       if (length(filter$rules[[i]]$value) == 0) {
         # value is list() when checking for NA
         value <- 0

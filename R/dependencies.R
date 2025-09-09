@@ -22,7 +22,9 @@ plugin_deps <- function(plugins) {
     sortable <- htmltools::htmlDependency(
       name = "interactjs",
       version = "1.10.11",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/"
+      ),
       script = "interact.min.js"
     )
     all_deps <- htmltools::tagList(
@@ -35,7 +37,9 @@ plugin_deps <- function(plugins) {
     bootbox <- htmltools::htmlDependency(
       name = "bootbox",
       version = "5.5.2",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/"
+      ),
       script = "bootbox.min.js"
     )
     all_deps <- htmltools::tagList(
@@ -48,7 +52,9 @@ plugin_deps <- function(plugins) {
     bs_select <- htmltools::htmlDependency(
       name = "bt-selectpicker",
       version = "1.13.18",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/"
+      ),
       script = "bootstrap-select.min.js"
     )
     all_deps <- htmltools::tagList(
@@ -74,7 +80,9 @@ plugin_deps <- function(plugins) {
     bt_checkbox <- htmltools::htmlDependency(
       name = "bt-checkbox",
       version = "1.0.2",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/1.0.2/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/1.0.2/"
+      ),
       stylesheet = "awesome-bootstrap-checkbox.min.css"
     )
     all_deps <- htmltools::tagList(
@@ -103,7 +111,9 @@ widget_deps <- function(filters) {
     slider <- htmltools::htmlDependency(
       name = "bootstrap-slider",
       version = "11.0.2",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/"
+      ),
       script = "bootstrap-slider.min.js",
       stylesheet = "css/bootstrap-slider.min.css"
     )
@@ -117,7 +127,9 @@ widget_deps <- function(filters) {
     datepicker <- htmltools::htmlDependency(
       name = "datepicker",
       version = "1.9.0",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/"
+      ),
       script = "js/bootstrap-datepicker.min.js",
       stylesheet = "css/bootstrap-datepicker.standalone.min.css"
     )
@@ -125,7 +137,9 @@ widget_deps <- function(filters) {
     moment <- htmltools::htmlDependency(
       name = "moment",
       version = "2.29.1",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/"
+      ),
       script = "moment.min.js"
     )
 
@@ -140,7 +154,9 @@ widget_deps <- function(filters) {
     selectize <- htmltools::htmlDependency(
       name = "selectize",
       version = "0.13.3",
-      src = c(href = "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/"),
+      src = c(
+        href = "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/"
+      ),
       script = "js/standalone/selectize.min.js",
       stylesheet = "css/selectize.default.min.css"
     )

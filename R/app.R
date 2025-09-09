@@ -13,7 +13,10 @@
 run_jqbr_demo <- function() {
   appDir <- system.file("app", package = "jqbr")
   if (appDir == "") {
-    stop("Could not find example directory. Try re-installing `jqbr`.", call. = FALSE)
+    stop(
+      "Could not find example directory. Try re-installing `jqbr`.",
+      call. = FALSE
+    )
   }
 
   shiny::runApp(appDir, display.mode = "normal")
