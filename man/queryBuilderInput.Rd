@@ -82,7 +82,7 @@ accessed with input$<builder_id> in shiny server}
 }
 \value{
 A \code{\link[htmltools:tagList]{htmltools::tagList()}} containing the queryBuilder
-dependencies and configuration that can be added to a \link{shiny} UI definition.
+dependencies and configuration that can be added to a \code{shiny} UI definition.
 }
 \description{
 Shiny input bindings for queryBuilder.

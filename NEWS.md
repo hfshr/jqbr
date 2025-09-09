@@ -1,3 +1,8 @@
+# jqbr 1.0.4
+
+- Fix documentation link issue 
+- Run air formatter
+
 # jqbr 1.0.3
 
 - Package has been renamed from `qbr` -> `jqbr` to avoid a conflict with an existing CRAN package called `qbr` [#7](https://github.com/hfshr/jqbr/issues/7)

@@ -23,7 +23,6 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
     bs_version
   )
 
-
   htmltools::htmlDependency(
     name = "queryBuilderBinding",
     version = "1.0.0",
@@ -74,7 +73,7 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' `return_type` is "rules" or "r_rules".
 #'
 #' @return A [htmltools::tagList()] containing the queryBuilder
-#' dependencies and configuration that can be added to a [shiny] UI definition.
+#' dependencies and configuration that can be added to a `shiny` UI definition.
 #'
 #' @examples
 #' library(shiny)
@@ -130,25 +129,27 @@ useQueryBuilder <- function(bs_version = c("3", "4", "5")) {
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-queryBuilderInput <- function(inputId,
-                              width = "100%",
-                              filters,
-                              plugins = NULL,
-                              rules = NULL,
-                              optgroups = NULL,
-                              default_filter = NULL,
-                              sort_filters = FALSE,
-                              allow_groups = TRUE,
-                              allow_empty = FALSE,
-                              display_errors = FALSE,
-                              conditions = c("AND", "OR"),
-                              default_condition = "AND",
-                              inputs_separator = ",",
-                              display_empty_filter = TRUE,
-                              select_placeholder = "------",
-                              operators = NULL,
-                              add_na_filter = FALSE,
-                              return_value = c("r_rules", "rules", "sql", "all")) {
+queryBuilderInput <- function(
+  inputId,
+  width = "100%",
+  filters,
+  plugins = NULL,
+  rules = NULL,
+  optgroups = NULL,
+  default_filter = NULL,
+  sort_filters = FALSE,
+  allow_groups = TRUE,
+  allow_empty = FALSE,
+  display_errors = FALSE,
+  conditions = c("AND", "OR"),
+  default_condition = "AND",
+  inputs_separator = ",",
+  display_empty_filter = TRUE,
+  select_placeholder = "------",
+  operators = NULL,
+  add_na_filter = FALSE,
+  return_value = c("r_rules", "rules", "sql", "all")
+) {
   stopifnot(!missing(inputId))
   stopifnot(!missing(filters))
 
@@ -202,9 +203,7 @@ queryBuilderInput <- function(inputId,
 
   return_value <- match.arg(return_value)
 
-
   options <- drop_nulls(options)
-
 
   options <- jsonlite::toJSON(
     options,
@@ -289,13 +288,15 @@ queryBuilderInput <- function(inputId,
 #'   shinyApp(ui, server)
 #' }
 #' @export
-updateQueryBuilder <- function(inputId,
-                               setFilters = NULL,
-                               addFilter = NULL,
-                               setRules = NULL,
-                               destroy = FALSE,
-                               reset = FALSE,
-                               session = shiny::getDefaultReactiveDomain()) {
+updateQueryBuilder <- function(
+  inputId,
+  setFilters = NULL,
+  addFilter = NULL,
+  setRules = NULL,
+  destroy = FALSE,
+  reset = FALSE,
+  session = shiny::getDefaultReactiveDomain()
+) {
   message <- list(
     setFilters = setFilters,
     addFilter = addFilter,
